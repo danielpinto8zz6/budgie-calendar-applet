@@ -23,3 +23,6 @@ sudo eopkg it vala libgtk-3-devel glib2-devel libpeas-devel budgie-desktop-devel
 make -j$(($(getconf _NPROCESSORS_ONLN)+1))
 sudo make install
 ```
+
+### Screenshot
+![Screenshot](screenshot.png)

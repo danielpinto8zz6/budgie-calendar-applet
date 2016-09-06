@@ -88,21 +88,6 @@ public class CalendarApplet: Budgie.Applet {
         show_all();
     }
 
-    /**
-     * Let the panel manager know we support a settings UI
-     */
-    public override bool supports_settings() {
-        return true;
-    }
-
-    /**
-     * Worth pointing out this is destroyed each time the user navigates
-     * away from the view.
-     */
-    public override Gtk.Widget ? get_settings_ui() {
-        return new CalendarAppletSettings();
-    }
-
     public override void update_popovers(Budgie.PopoverManager ? manager) {
         this.manager = manager;
         manager.register_popover(widget, popover);
@@ -151,51 +136,6 @@ public class CalendarApplet: Budgie.Applet {
         clock.set_markup(ctime);
 
         return true;
-    }
-}
-
-/**
- * You can go further with this, but this is how we provide settings UIs for
- * the applet inside of Raven.
- */
-public class CalendarAppletSettings: Gtk.Box {
-    public CalendarAppletSettings() {
-        var datelabel = new Gtk.Label("Show date");
-        var secondslabel = new Gtk.Label("Show seconds");
-        var dateswitcher = new Gtk.Switch();
-        var secondsswitcher = new Gtk.Switch();
-
-        dateswitcher.notify["active"].connect(switcher_dat);
-        secondsswitcher.notify["active"].connect(switcher_sec);
-
-        var grid = new Gtk.Grid();
-        grid.set_column_spacing(10);
-        grid.set_row_spacing(10);
-        grid.set_column_homogeneous(true);
-        grid.set_row_homogeneous(true);
-        grid.attach(datelabel, 0, 0, 1, 1);
-        grid.attach(dateswitcher, 1, 0, 1, 1);
-        grid.attach(secondslabel, 0, 1, 1, 1);
-        grid.attach(secondsswitcher, 1, 1, 1, 1);
-
-        add(grid);
-
-        show_all();
-    }
-
-    void switcher_dat(Object dateswitcher, ParamSpec pspec) {
-        if ((dateswitcher as Gtk.Switch).get_active()) {
-            GLib.Process.spawn_command_line_async("/bin/gsettings set org.gnome.desktop.interface clock-show-date true");
-        } else {
-            GLib.Process.spawn_command_line_async("/bin/gsettings set org.gnome.desktop.interface clock-show-date false");
-        }
-    }
-    void switcher_sec(Object secondsswitcher, ParamSpec pspec) {
-        if ((secondsswitcher as Gtk.Switch).get_active()) {
-            GLib.Process.spawn_command_line_async("/bin/gsettings set org.gnome.desktop.interface clock-show-seconds true");
-        } else {
-            GLib.Process.spawn_command_line_async("/bin/gsettings set org.gnome.desktop.interface clock-show-seconds false");
-        }
     }
 }
 

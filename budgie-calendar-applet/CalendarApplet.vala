@@ -24,9 +24,6 @@ enum ClockFormat {
 public static
 const string CALENDAR_MIME = "text/calendar";
 
-private static
-const string date_format = "%e %b %Y";
-
 public class CalendarApplet: Budgie.Applet {
 
     protected Gtk.EventBox widget;
@@ -44,25 +41,12 @@ public class CalendarApplet: Budgie.Applet {
 
     private unowned Budgie.PopoverManager ? manager = null;
 
+    AppInfo? calprov = null;
+
     public CalendarApplet() {
-        widget = new Gtk.EventBox();
         clock = new Gtk.Label("");
-        time = new DateTime.now_local();
+        widget = new Gtk.EventBox();
         widget.add(clock);
-
-        widget.set_tooltip_text(time.format(date_format));
-
-        popover = new Gtk.Popover(widget);
-        calendar = new Gtk.Calendar();
-
-        // check current month
-        calendar.month_changed.connect(() => {
-            if (calendar.month + 1 == time.get_month())
-                calendar.mark_day(time.get_day_of_month());
-            else
-                calendar.unmark_day(time.get_day_of_month());
-        });
-
         widget.button_press_event.connect((e) => {
             if (e.button == 1) {
                 if (!popover.get_visible()) {
@@ -75,7 +59,40 @@ public class CalendarApplet: Budgie.Applet {
             return Gdk.EVENT_PROPAGATE;
         });
 
-        popover.add(calendar);
+        popover = new Gtk.Popover(widget);
+
+        // Create the popover container
+        var box = new Gtk.ListBox();
+        popover.add(box);
+
+        // Add Calendar Widget
+        calendar = new Gtk.Calendar();
+
+        // check current month
+        time = new DateTime.now_local();
+        calendar.month_changed.connect(() => {
+            if (calendar.month + 1 == time.get_month())
+                calendar.mark_day(time.get_day_of_month());
+            else
+                calendar.unmark_day(time.get_day_of_month());
+        });
+
+        // Setup calprov
+        calprov = AppInfo.get_default_for_type(CALENDAR_MIME, false);
+        var monitor = AppInfoMonitor.get();
+        monitor.changed.connect(update_cal);
+
+        // Cal clicked handler
+        calendar.day_selected.connect(on_cal_activate);
+        calendar.day_selected_double_click.connect(on_cal_activate);
+
+        box.insert(calendar, 0);
+
+        // Time and Date settings
+        var time_and_date = new Gtk.Button.with_label("Time and date settings");
+        time_and_date.clicked.connect(on_date_activate);
+        box.insert(time_and_date, 1);
+
         Timeout.add_seconds_full(GLib.Priority.LOW, 1, update_clock);
 
         settings = new Settings("org.gnome.desktop.interface");
@@ -114,28 +131,62 @@ public class CalendarApplet: Budgie.Applet {
      */
     protected bool update_clock() {
         time = new DateTime.now_local();
-        string format;
+        string format = "";
+
+        if (show_date) {
+            format += "%a %b %d  ";
+        }
 
         if (ampm) {
-            format = "%l:%M";
+            format += "%l:%M";
         } else {
-            format = "%H:%M";
+            format += "%H:%M";
         }
+
         if (show_seconds) {
             format += ":%S";
         }
+
         if (ampm) {
             format += " %p";
         }
         string ftime = " <big>%s</big> ".printf(format);
-        if (show_date) {
-            ftime += " <big>%x</big>";
-        }
-
+        
         var ctime = time.format(ftime);
         clock.set_markup(ctime);
 
         return true;
+    }
+
+    void update_cal()
+    {
+        calprov = AppInfo.get_default_for_type(CALENDAR_MIME, false);
+    }
+
+    void on_date_activate()
+    {
+        var app_info = new DesktopAppInfo("gnome-datetime-panel.desktop");
+
+        if (app_info == null) {
+            return;
+        }
+        try {
+            app_info.launch(null, null);
+        } catch (Error e) {
+            message("Unable to launch gnome-datetime-panel.desktop: %s", e.message);
+        }
+    }
+    
+    void on_cal_activate()
+    {
+        if (calprov == null) {
+            return;
+        }
+        try {
+            calprov.launch(null, null);
+        } catch (Error e) {
+            message("Unable to launch %s: %s", calprov.get_name(), e.message);
+        }
     }
 }
 

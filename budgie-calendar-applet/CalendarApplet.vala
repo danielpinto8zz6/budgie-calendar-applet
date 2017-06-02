@@ -45,8 +45,10 @@ public class CalendarApplet: Budgie.Applet {
 
     public CalendarApplet() {
         clock = new Gtk.Label("");
+	clock.valign = Gtk.Align.CENTER;
         widget = new Gtk.EventBox();
         widget.add(clock);
+        margin_bottom = 2;
         widget.button_press_event.connect((e) => {
             if (e.button == 1) {
                 if (!popover.get_visible()) {

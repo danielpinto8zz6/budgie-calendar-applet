@@ -128,6 +128,9 @@ public class CalendarApplet: Budgie.Applet {
             show_date = settings.get_boolean(key);
             break;
         }
+        if (get_toplevel() != null) {
+            get_toplevel().queue_draw();
+        }
         /* Lazy update on next clock sync */
     }
 

@@ -51,21 +51,22 @@ public class CalendarApplet: Budgie.Applet {
         widget = new Gtk.EventBox();
         widget.add(clock);
         margin_bottom = 2;
-        widget.button_press_event.connect((e) => {
-            if (e.button == 1) {
-                if (!popover.get_visible()) {
-                    popover.show_all();
-                } else {
-                    popover.hide();
-                }
-                return Gdk.EVENT_STOP;
-            }
-            return Gdk.EVENT_PROPAGATE;
-        });
+        popover = new Gtk.Popover(widget);
 
+        widget.button_press_event.connect((e)=> {
+            if (e.button != 1) {
+                return Gdk.EVENT_PROPAGATE;
+            }
+            if (popover.get_visible()) {
+                popover.hide();
+            } else {
+                popover.get_child().show_all();
+                this.manager.show_popover(widget);
+            }
+            return Gdk.EVENT_STOP;
+        });
 	widget.set_tooltip_text(time.format(date_format));
 
-        popover = new Gtk.Popover(widget);
 
         // Create the popover container
         var box = new Gtk.ListBox();

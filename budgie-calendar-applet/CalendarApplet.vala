@@ -24,6 +24,8 @@ enum ClockFormat {
 public static
 const string CALENDAR_MIME = "text/calendar";
 
+private static const string date_format = "%e %b %Y";
+
 public class CalendarApplet: Budgie.Applet {
 
     protected Gtk.EventBox widget;
@@ -60,6 +62,8 @@ public class CalendarApplet: Budgie.Applet {
             }
             return Gdk.EVENT_PROPAGATE;
         });
+
+	widget.set_tooltip_text(time.format(date_format));
 
         popover = new Gtk.Popover(widget);
 

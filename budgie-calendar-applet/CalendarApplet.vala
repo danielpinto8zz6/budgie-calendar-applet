@@ -109,6 +109,9 @@ protected void on_settings_change(string key) {
                 show_date = settings.get_boolean(key);
                 break;
         }
+        if (get_toplevel() != null) {
+            get_toplevel().queue_draw();
+        }
         /* Lazy update on next clock sync */
 }
 

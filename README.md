@@ -1,7 +1,6 @@
 # calendar-applet
 A budgie-desktop applet to show hours and when click show a calendar in a popover
 
-
 ## Dependencies
 ```
 vala
@@ -12,7 +11,7 @@ PeasGtk-1.0
 budgie-1.0
 ```
 
-These can be installed on Solus by running:  
+SOLUS
 ```
 sudo eopkg it vala libgtk-3-devel glib2-devel libpeas-devel budgie-desktop-devel
 ```
@@ -23,6 +22,9 @@ sudo eopkg it vala libgtk-3-devel glib2-devel libpeas-devel budgie-desktop-devel
 make -j$(($(getconf _NPROCESSORS_ONLN)+1))
 sudo make install
 ```
+
+### Arch
+you can install that applet on archlinux with aur : [budgie-calendar-applet](https://aur.archlinux.org/packages/budgie-calendar-applet)
 
 ### Screenshot
 ![Screenshot](screenshot.png)

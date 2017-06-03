@@ -43,8 +43,10 @@ private unowned Budgie.PopoverManager ? manager = null;
 public CalendarApplet() {
         widget = new Gtk.EventBox();
         clock = new Gtk.Label("");
+        clock.valign = Gtk.Align.CENTER;
         time = new DateTime.now_local();
         widget.add(clock);
+        margin_bottom = 2;
 
         popover = new Gtk.Popover(widget);
         calendar = new Gtk.Calendar();
@@ -110,7 +112,7 @@ protected void on_settings_change(string key) {
                 break;
         }
         if (get_toplevel() != null) {
-            get_toplevel().queue_draw();
+                get_toplevel().queue_draw();
         }
         /* Lazy update on next clock sync */
 }

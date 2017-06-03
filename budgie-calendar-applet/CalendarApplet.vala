@@ -23,6 +23,8 @@ enum ClockFormat {
 
 public const string CALENDAR_MIME = "text/calendar";
 
+public const string date_format = "%e %b %Y";
+
 public class CalendarApplet : Budgie.Applet {
 
 protected Gtk.EventBox widget;
@@ -50,6 +52,8 @@ public CalendarApplet() {
 
         popover = new Gtk.Popover(widget);
         calendar = new Gtk.Calendar();
+
+        widget.set_tooltip_text(time.format(date_format));
 
         // check current month
         calendar.month_changed.connect(() => {

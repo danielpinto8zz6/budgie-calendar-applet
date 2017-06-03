@@ -1,0 +1,8 @@
+[Plugin]
+Module=calendarapplet.so
+Name=Calendar
+Description=Calendar
+Authors=Daniel Pinto
+Copyright=Copyright © 2016 Daniel Pinto
+Website=https://github.com/danielpinto8zz6/budgie-calendar-applet
+Icon=preferences-system-time-symbolic

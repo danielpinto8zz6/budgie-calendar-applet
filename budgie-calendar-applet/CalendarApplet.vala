@@ -66,7 +66,14 @@ public CalendarApplet() {
         weekday_label.halign = Gtk.Align.START;
         weekday_label.margin_top = 10;
         weekday_label.margin_start = 20;
-        main_grid.attach (weekday_label, 0, position++, 1, 1);
+        main_grid.attach (weekday_label, 0, position++, 7, 1);
+
+        // Time and Date settings
+        var datetime_settings = new Gtk.Button.from_icon_name("emblem-system-symbolic", Gtk.IconSize.MENU);
+        datetime_settings.margin_top = 10;
+        datetime_settings.margin_end = 6;
+        datetime_settings.clicked.connect(on_date_activate);
+        main_grid.attach_next_to (datetime_settings, weekday_label, Gtk.PositionType.RIGHT, 1, 1);
 
         var date_label = new Gtk.Label ("");
         date_label.get_style_context ().add_class ("h2");
@@ -74,23 +81,16 @@ public CalendarApplet() {
         date_label.margin_start = 20;
         date_label.margin_top = 10;
         date_label.margin_bottom = 15;
-        main_grid.attach (date_label, 0, position++, 1, 1);
+        main_grid.attach (date_label, 0, position++, 8, 1);
 
         weekday_label.set_label (time.format("%A"));
-        date_label.set_label (time.format("%B %e, %Y"));
+        date_label.set_label (time.format("%e %B %Y"));
 
         calendar = new Gtk.Calendar();
         calendar.margin_bottom = 6;
         calendar.margin_start = 6;
         calendar.margin_end = 6;
-        main_grid.attach (calendar, 0, position++, 1, 1);
-
-        /*// Time and Date settings
-        var time_and_date = new Gtk.Button.with_label("Date & Time Settings…");
-        time_and_date.clicked.connect(on_date_activate);
-        Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
-        main_grid.attach (separator, 0, position++, 1, 1);
-        main_grid.attach (time_and_date, 0, position++, 1, 1);*/
+        main_grid.attach (calendar, 0, position++, 8, 1);
 
         widget.set_tooltip_text(time.format(date_format));
 
@@ -205,7 +205,7 @@ void update_cal()
         calprov = AppInfo.get_default_for_type(CALENDAR_MIME, false);
 }
 
-/*void on_date_activate()
+void on_date_activate()
 {
         var app_info = new DesktopAppInfo("gnome-datetime-panel.desktop");
 
@@ -217,7 +217,7 @@ void update_cal()
         } catch (Error e) {
                 message("Unable to launch gnome-datetime-panel.desktop: %s", e.message);
         }
-}*/
+}
 
 void on_cal_activate()
 {

@@ -45,6 +45,9 @@ private unowned Budgie.PopoverManager ? manager = null;
 AppInfo ? calprov = null;
 
 public CalendarApplet() {
+
+        int position = 0;
+
         widget = new Gtk.EventBox();
         clock = new Gtk.Label("");
         clock.valign = Gtk.Align.CENTER;
@@ -55,6 +58,39 @@ public CalendarApplet() {
         popover = new Gtk.Popover(widget);
         calendar = new Gtk.Calendar();
         var box = new Gtk.ListBox();
+
+        var main_grid = new Gtk.Grid ();
+
+        var weekday_label = new Gtk.Label ("");
+        weekday_label.get_style_context ().add_class ("h1");
+        weekday_label.halign = Gtk.Align.START;
+        weekday_label.margin_top = 10;
+        weekday_label.margin_start = 20;
+        main_grid.attach (weekday_label, 0, position++, 1, 1);
+
+        var date_label = new Gtk.Label ("");
+        date_label.get_style_context ().add_class ("h2");
+        date_label.halign = Gtk.Align.START;
+        date_label.margin_start = 20;
+        date_label.margin_top = 10;
+        date_label.margin_bottom = 15;
+        main_grid.attach (date_label, 0, position++, 1, 1);
+
+        weekday_label.set_label (time.format("%A"));
+        date_label.set_label (time.format("%B %e, %Y"));
+
+        calendar = new Gtk.Calendar();
+        calendar.margin_bottom = 6;
+        calendar.margin_start = 6;
+        calendar.margin_end = 6;
+        main_grid.attach (calendar, 0, position++, 1, 1);
+
+        /*// Time and Date settings
+        var time_and_date = new Gtk.Button.with_label("Date & Time Settings…");
+        time_and_date.clicked.connect(on_date_activate);
+        Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
+        main_grid.attach (separator, 0, position++, 1, 1);
+        main_grid.attach (time_and_date, 0, position++, 1, 1);*/
 
         widget.set_tooltip_text(time.format(date_format));
 
@@ -85,12 +121,7 @@ public CalendarApplet() {
         // Cal clicked handler
         calendar.day_selected_double_click.connect(on_cal_activate);
 
-        box.insert(calendar, 0);
-
-        // Time and Date settings
-        var time_and_date = new Gtk.Button.with_label("Time and date settings");
-        time_and_date.clicked.connect(on_date_activate);
-        box.insert(time_and_date, 1);
+        box.insert(main_grid, 0);
 
         Timeout.add_seconds_full(GLib.Priority.LOW, 1, update_clock);
 
@@ -174,7 +205,7 @@ void update_cal()
         calprov = AppInfo.get_default_for_type(CALENDAR_MIME, false);
 }
 
-void on_date_activate()
+/*void on_date_activate()
 {
         var app_info = new DesktopAppInfo("gnome-datetime-panel.desktop");
 
@@ -186,7 +217,7 @@ void on_date_activate()
         } catch (Error e) {
                 message("Unable to launch gnome-datetime-panel.desktop: %s", e.message);
         }
-}
+}*/
 
 void on_cal_activate()
 {

@@ -1,7 +1,7 @@
 /*
  * This file is part of calendar-applet
  *
- * Copyright (C) 2016 Daniel Pinto <danielpinto8zz6@gmail.com>
+ * Copyright (C) 2017 Daniel Pinto <danielpinto8zz6@gmail.com>
  * Copyright (C) 2014-2016 Ikey Doherty <ikey@solus-project.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -31,6 +31,8 @@ protected Gtk.EventBox widget;
 protected Gtk.Label clock;
 protected Gtk.Calendar calendar;
 protected Gtk.Popover popover;
+protected Gtk.Grid main_grid;
+protected Gtk.Button datetime_settings;
 
 protected bool ampm = false;
 protected bool show_seconds = false;
@@ -46,6 +48,8 @@ AppInfo ? calprov = null;
 
 public CalendarApplet() {
 
+
+// Setup the clock and popover
         int position = 0;
 
         widget = new Gtk.EventBox();
@@ -57,34 +61,38 @@ public CalendarApplet() {
 
         popover = new Gtk.Popover(widget);
 
-        var main_grid = new Gtk.Grid ();
+        // Grid inside popover to put widgets
+        main_grid = new Gtk.Grid ();
         main_grid.can_focus = false;
+
+        // Show Week day
         var weekday_label = new Gtk.Label ("");
         weekday_label.get_style_context ().add_class ("h1");
         weekday_label.halign = Gtk.Align.START;
         weekday_label.margin_top = 10;
         weekday_label.margin_start = 20;
+        weekday_label.set_label (time.format("%A"));
         main_grid.attach (weekday_label, 0, position++, 7, 1);
 
-        // Time and Date settings
-        var datetime_settings = new Gtk.Button.from_icon_name("emblem-system-symbolic", Gtk.IconSize.MENU);
-        datetime_settings.can_focus = false;
-        datetime_settings.margin_top = 10;
-        datetime_settings.margin_end = 6;
-        datetime_settings.clicked.connect(on_date_activate);
-        main_grid.attach_next_to (datetime_settings, weekday_label, Gtk.PositionType.RIGHT, 1, 1);
-
+        // Show date
         var date_label = new Gtk.Label ("");
         date_label.get_style_context ().add_class ("h2");
         date_label.halign = Gtk.Align.START;
         date_label.margin_start = 20;
         date_label.margin_top = 10;
         date_label.margin_bottom = 15;
+        date_label.set_label (time.format("%e %B %Y"));
         main_grid.attach (date_label, 0, position++, 8, 1);
 
-        weekday_label.set_label (time.format("%A"));
-        date_label.set_label (time.format("%e %B %Y"));
+        // Time and Date settings Button
+        datetime_settings = new Gtk.Button.from_icon_name("emblem-system-symbolic", Gtk.IconSize.MENU);
+        datetime_settings.can_focus = false;
+        datetime_settings.margin_top = 10;
+        datetime_settings.margin_end = 6;
+        datetime_settings.clicked.connect(on_date_activate);
+        main_grid.attach_next_to (datetime_settings, weekday_label, Gtk.PositionType.RIGHT, 1, 1);
 
+        // Calendar
         calendar = new Gtk.Calendar();
         calendar.can_focus = false;
         calendar.margin_bottom = 6;
@@ -92,25 +100,19 @@ public CalendarApplet() {
         calendar.margin_end = 6;
         main_grid.attach (calendar, 0, position++, 8, 1);
 
+        // Show date when over mouse
         widget.set_tooltip_text(time.format(date_format));
 
+        // Create the popover container
+        popover.add(main_grid);
+
+        // Click on clock show popover
         widget.button_press_event.connect((e)=> {
                         if (e.button != 1) {
                                 return Gdk.EVENT_PROPAGATE;
                         }
                         Toggle();
                         return Gdk.EVENT_STOP;
-                });
-
-        // Create the popover container
-        popover.add(main_grid);
-
-        // check current month
-        calendar.month_changed.connect(() => {
-                        if (calendar.month + 1 == time.get_month())
-                                calendar.mark_day(time.get_day_of_month());
-                        else
-                                calendar.unmark_day(time.get_day_of_month());
                 });
 
         // Setup calprov
@@ -125,9 +127,11 @@ public CalendarApplet() {
 
         settings = new Settings("org.gnome.desktop.interface");
         settings.changed.connect(on_settings_change);
+
         on_settings_change("clock-format");
         on_settings_change("clock-show-seconds");
         on_settings_change("clock-show-date");
+
         update_clock();
         add(widget);
         show_all();

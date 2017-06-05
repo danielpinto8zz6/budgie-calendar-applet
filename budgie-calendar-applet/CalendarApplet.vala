@@ -56,11 +56,9 @@ public CalendarApplet() {
         margin_bottom = 2;
 
         popover = new Gtk.Popover(widget);
-        calendar = new Gtk.Calendar();
-        var box = new Gtk.ListBox();
 
         var main_grid = new Gtk.Grid ();
-
+        main_grid.can_focus = false;
         var weekday_label = new Gtk.Label ("");
         weekday_label.get_style_context ().add_class ("h1");
         weekday_label.halign = Gtk.Align.START;
@@ -70,6 +68,7 @@ public CalendarApplet() {
 
         // Time and Date settings
         var datetime_settings = new Gtk.Button.from_icon_name("emblem-system-symbolic", Gtk.IconSize.MENU);
+        datetime_settings.can_focus = false;
         datetime_settings.margin_top = 10;
         datetime_settings.margin_end = 6;
         datetime_settings.clicked.connect(on_date_activate);
@@ -87,6 +86,7 @@ public CalendarApplet() {
         date_label.set_label (time.format("%e %B %Y"));
 
         calendar = new Gtk.Calendar();
+        calendar.can_focus = false;
         calendar.margin_bottom = 6;
         calendar.margin_start = 6;
         calendar.margin_end = 6;
@@ -103,7 +103,7 @@ public CalendarApplet() {
                 });
 
         // Create the popover container
-        popover.add(box);
+        popover.add(main_grid);
 
         // check current month
         calendar.month_changed.connect(() => {
@@ -120,8 +120,6 @@ public CalendarApplet() {
 
         // Cal clicked handler
         calendar.day_selected_double_click.connect(on_cal_activate);
-
-        box.insert(main_grid, 0);
 
         Timeout.add_seconds_full(GLib.Priority.LOW, 1, update_clock);
 

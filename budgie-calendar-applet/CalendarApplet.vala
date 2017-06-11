@@ -141,9 +141,17 @@ public void Toggle(){
         if (popover.get_visible()) {
                 popover.hide();
         } else {
+		update_date();
                 popover.get_child().show_all();
                 this.manager.show_popover(widget);
         }
+}
+
+private bool update_date()
+{
+    var time = new DateTime.now_local();
+    calendar.day = time.get_day_of_month();
+    return true;
 }
 
 public override void invoke_action(Budgie.PanelAction action) {

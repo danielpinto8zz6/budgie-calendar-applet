@@ -27,4 +27,4 @@ sudo make install
 you can install that applet on archlinux with aur : [budgie-calendar-applet](https://aur.archlinux.org/packages/budgie-calendar-applet)
 
 ### Screenshot
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.jpg)

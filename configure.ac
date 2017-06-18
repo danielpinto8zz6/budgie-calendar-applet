@@ -10,7 +10,7 @@ AM_SILENT_RULES([yes])
 LT_INIT([disable-static])
 AC_CONFIG_MACRO_DIR([m4])
 
-m4_define([budgie_required_version], [1])
+m4_define([budgie_required_version], [2])
 
 # Note budgie-1.0 depends on peas, gtk, etc. Sorta your package managers
 # business to make sure those deps are satisfied.
@@ -22,10 +22,19 @@ PKG_CHECK_MODULES(BUDGIE_PLUGIN,
 # Required only for Vala applets.
 AM_PROG_VALAC([0.28], [], [AC_MSG_ERROR([valac is required to build Vala applets])])
 
+IT_PROG_INTLTOOL([0.50.0])
+GETTEXT_PACKAGE=budgie-calendar-applet
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
+                   [The prefix for our gettext translation domains.])
+
 AC_CONFIG_FILES([Makefile
-                 budgie-calendar-applet/Makefile])
+                 budgie-calendar-applet/Makefile
+                 po/Makefile.in])
 
 AC_OUTPUT
+
+AM_GLIB_GNU_GETTEXT
 
 AC_MSG_RESULT([
         budgie-desktop-examples $VERSION

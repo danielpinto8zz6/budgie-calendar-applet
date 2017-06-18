@@ -2,6 +2,9 @@
 
 set -e
 
+mkdir -p m4
+
+intltoolize --copy --force --automake
 autoreconf --force --install --symlink --warnings=all
 
 args="\

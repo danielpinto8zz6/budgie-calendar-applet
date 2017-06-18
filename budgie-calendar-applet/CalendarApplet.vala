@@ -48,6 +48,10 @@ AppInfo ? calprov = null;
 
 public CalendarApplet() {
 
+        Intl.setlocale(LocaleCategory.ALL, "");
+        Intl.bindtextdomain(Config.GETTEXT_PACKAGE, Config.PACKAGE_LOCALEDIR);
+        Intl.bind_textdomain_codeset(Config.GETTEXT_PACKAGE, "UTF-8");
+        Intl.textdomain(Config.GETTEXT_PACKAGE);
 
 // Setup the clock and popover
         int position = 0;
@@ -225,7 +229,7 @@ void on_date_activate()
         try {
                 app_info.launch(null, null);
         } catch (Error e) {
-                message("Unable to launch gnome-datetime-panel.desktop: %s", e.message);
+                message(_("Unable to launch gnome-datetime-panel.desktop: %s"), e.message);
         }
 }
 
@@ -237,7 +241,7 @@ void on_cal_activate()
         try {
                 calprov.launch(null, null);
         } catch (Error e) {
-                message("Unable to launch %s: %s", calprov.get_name(), e.message);
+                message(_("Unable to launch %s: %s"), calprov.get_name(), e.message);
         }
 }
 
@@ -262,19 +266,24 @@ protected bool show_date = false;
 
 public CalendarAppletSettings() {
 
+        Intl.setlocale(LocaleCategory.ALL, "");
+        Intl.bindtextdomain(Config.GETTEXT_PACKAGE, Config.PACKAGE_LOCALEDIR);
+        Intl.bind_textdomain_codeset(Config.GETTEXT_PACKAGE, "UTF-8");
+        Intl.textdomain(Config.GETTEXT_PACKAGE);
+
         settings = new Settings("org.gnome.desktop.interface");
 
-        var label_date = new Gtk.Label ("Show date");
+        var label_date = new Gtk.Label (_("Show date"));
         label_date.set_halign (Gtk.Align.START);
         label_date.set_hexpand (true);
         var switch_date = new Gtk.Switch ();
         switch_date.set_halign (Gtk.Align.END);
         switch_date.set_hexpand (true);
-        var label_seconds = new Gtk.Label ("Show seconds");
+        var label_seconds = new Gtk.Label (_("Show seconds"));
         label_seconds.set_halign (Gtk.Align.START);
         var switch_seconds = new Gtk.Switch ();
         switch_seconds.set_halign (Gtk.Align.END);
-        var label_format = new Gtk.Label ("Use 24h time");
+        var label_format = new Gtk.Label (_("Use 24h time"));
         label_format.set_halign (Gtk.Align.START);
         var switch_format = new Gtk.Switch ();
         switch_format.set_halign (Gtk.Align.END);

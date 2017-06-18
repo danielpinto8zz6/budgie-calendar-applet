@@ -37,7 +37,7 @@ AC_OUTPUT
 AM_GLIB_GNU_GETTEXT
 
 AC_MSG_RESULT([
-        budgie-desktop-examples $VERSION
+        budgie-calendar-applet $VERSION
         ========
 
         prefix:                 ${prefix}

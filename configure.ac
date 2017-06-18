@@ -1,4 +1,4 @@
-AC_INIT([budgie-calendar-applet], 0.1, [danielpinto8zz6@gmail.com], [budgie-calendar-applet], [https://github.com/danielpinto8zz6/budgie-calendar-applet])
+AC_INIT([budgie-calendar-applet], 3.0, [danielpinto8zz6@gmail.com], [budgie-calendar-applet], [https://github.com/danielpinto8zz6/budgie-calendar-applet])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([-Wno-portability no-dist-gzip dist-xz foreign subdir-objects])
 AC_PROG_CC

@@ -23,8 +23,6 @@ enum ClockFormat {
 
 public const string CALENDAR_MIME = "text/calendar";
 
-public const string date_format = "%e %b %Y";
-
 public class CalendarApplet : Budgie.Applet {
 
 protected Gtk.EventBox widget;
@@ -37,6 +35,8 @@ protected Gtk.Button datetime_settings;
 protected bool ampm = false;
 protected bool show_seconds = false;
 protected bool show_date = false;
+
+private const string date_format = "%e %b %Y";
 
 private DateTime time;
 
@@ -141,7 +141,7 @@ public void Toggle(){
         if (popover.get_visible()) {
                 popover.hide();
         } else {
-		update_date();
+                update_date();
                 popover.get_child().show_all();
                 this.manager.show_popover(widget);
         }
@@ -149,9 +149,9 @@ public void Toggle(){
 
 private bool update_date()
 {
-    var time = new DateTime.now_local();
-    calendar.day = time.get_day_of_month();
-    return true;
+        var time = new DateTime.now_local();
+        calendar.day = time.get_day_of_month();
+        return true;
 }
 
 public override void invoke_action(Budgie.PanelAction action) {
@@ -239,6 +239,158 @@ void on_cal_activate()
         } catch (Error e) {
                 message("Unable to launch %s: %s", calprov.get_name(), e.message);
         }
+}
+
+public override bool supports_settings() {
+        return true;
+}
+
+public override Gtk.Widget ? get_settings_ui() {
+        return new CalendarAppletSettings();
+}
+
+public class CalendarAppletSettings : Gtk.Box {
+
+protected Gtk.Label clock;
+private DateTime time;
+protected Settings settings;
+protected Settings applet_settings;
+protected string date_format;
+protected bool ampm = false;
+protected bool show_seconds = false;
+protected bool show_date = false;
+
+public CalendarAppletSettings() {
+
+        settings = new Settings("org.gnome.desktop.interface");
+
+        var label_date = new Gtk.Label ("Show date");
+        label_date.set_halign (Gtk.Align.START);
+        label_date.set_hexpand (true);
+        var switch_date = new Gtk.Switch ();
+        switch_date.set_halign (Gtk.Align.END);
+        switch_date.set_hexpand (true);
+        var label_seconds = new Gtk.Label ("Show seconds");
+        label_seconds.set_halign (Gtk.Align.START);
+        var switch_seconds = new Gtk.Switch ();
+        switch_seconds.set_halign (Gtk.Align.END);
+        var label_format = new Gtk.Label ("Use 24h time");
+        label_format.set_halign (Gtk.Align.START);
+        var switch_format = new Gtk.Switch ();
+        switch_format.set_halign (Gtk.Align.END);
+
+        // Get current setting to set the switch button
+        if(settings.get_boolean ("clock-show-date") == true) {
+                switch_date.set_active (true);
+        }
+        if(settings.get_boolean ("clock-show-seconds") == true) {
+                switch_seconds.set_active (true);
+        }
+        if(settings.get_enum("clock-format") == ClockFormat.TWENTYFOUR) {
+                switch_format.set_active (true);
+        }
+
+        switch_date.notify["active"].connect (date_switcher);
+        switch_seconds.notify["active"].connect (seconds_switcher);
+
+        var grid = new Gtk.Grid ();
+        grid.can_focus = false;
+        grid.margin_start = 8;
+        grid.margin_end = 4;
+        grid.margin_top = 4;
+        grid.margin_bottom = 4;
+        grid.row_spacing = 10;
+        grid.column_spacing = 6;
+        grid.attach(label_date, 0, 0, 1, 1);
+        grid.attach(switch_date, 1, 0, 1, 1);
+        grid.attach(label_seconds, 0, 2, 1, 1);
+        grid.attach(switch_seconds, 1, 2, 1, 1);
+        grid.attach(label_format, 0, 3, 1, 1);
+        grid.attach(switch_format, 1, 3, 1, 1);
+
+        settings.changed.connect(on_settings_change);
+        on_settings_change("clock-format");
+        on_settings_change("clock-show-seconds");
+
+        add (grid);
+
+        show_all();
+
+}
+void date_switcher (Object switcher, ParamSpec pspec) {
+        if ((switcher as Gtk.Switch).get_active())
+        {
+                this.settings.set_boolean("clock-show-date", true);
+                Idle.add(()=> {
+                                        this.update_clock();
+                                        return false;
+                                });
+        }  else {
+                this.settings.set_boolean("clock-show-date", false);
+                Idle.add(()=> {
+                                        this.update_clock();
+                                        return false;
+                                });
+        }
+}
+
+void seconds_switcher (Object switcher, ParamSpec pspec) {
+        if ((switcher as Gtk.Switch).get_active())
+        {
+                this.settings.set_boolean("clock-show-seconds", true);
+                Idle.add(()=> {
+                                        this.update_clock();
+                                        return false;
+                                });
+        }  else {
+                this.settings.set_boolean("clock-show-seconds", false);
+                Idle.add(()=> {
+                                        this.update_clock();
+                                        return false;
+                                });
+        }
+}
+
+protected void on_settings_change(string key) {
+        switch (key) {
+        case "clock-format":
+                ClockFormat f = (ClockFormat) settings.get_enum(key);
+                ampm = f == ClockFormat.TWELVE;
+                break;
+        case "clock-show-seconds":
+                show_seconds = settings.get_boolean(key);
+                break;
+        case "clock-show-date":
+                show_date = settings.get_boolean(key);
+                break;
+        }
+}
+
+protected bool update_clock() {
+        time = new DateTime.now_local();
+        string format;
+
+        if (ampm) {
+                format = "%l:%M";
+        } else {
+                format = "%H:%M";
+        }
+        if (show_seconds) {
+                format += ":%S";
+        }
+        if (ampm) {
+                format += " %p";
+        }
+        string ftime = " <big>%s</big> ".printf(format);
+        if (show_date) {
+                ftime += " <big>%x</big>";
+        }
+
+        var ctime = time.format(ftime);
+        clock.set_markup(ctime);
+
+        return true;
+}
 }
 }
 

@@ -5,26 +5,27 @@ A budgie-desktop applet to show hours and when click show a calendar in a popove
 ```
 vala
 gtk+-3.0
-gio-unix-2.0
-libpeas-1.0
-PeasGtk-1.0
 budgie-1.0
 ```
 
 SOLUS
 ```
-sudo eopkg it vala libgtk-3-devel glib2-devel libpeas-devel budgie-desktop-devel
+sudo eopkg it budgie-desktop-devel libgnome-desktop-devel vala
 ```
 
-### Installing
+### Installing from source
 ```
-./autogen.sh --prefix=/usr
-make -j$(($(getconf _NPROCESSORS_ONLN)+1))
-sudo make install
+mkdir build && cd build
+meson --prefix /usr --buildtype=plain ..
+ninja
+sudo ninja install
 ```
 
 ### Arch
 you can install that applet on archlinux with aur : [budgie-calendar-applet](https://aur.archlinux.org/packages/budgie-calendar-applet)
+
+### Translate
+You can help translating this applet on: [Transifex](https://www.transifex.com/danielpinto8zz6/budgie-calendar-applet)
 
 ### Screenshot
 ![Screenshot](screenshot.jpg)

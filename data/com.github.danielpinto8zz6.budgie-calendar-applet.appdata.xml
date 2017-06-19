@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml</id>
+  <pkgname>budgie-calendar-applet</pkgname>
+  <translation type="gettext">budgie-calendar-applet</translation>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>Budgie Calendar Applet</name>
+  <summary>Calendar applet for Budgie Desktop</summary>
+  <description>
+    <p>
+    A budgie-desktop applet to show hours and when click show a calendar in a popover.
+    </p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/danielpinto8zz6/budgie-calendar-applet/master/screenshot.jpg</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/danielpinto8zz6/budgie-calendar-applet</url>
+  <url type="bugtracker">https://github.com/danielpinto8zz6/budgie-calendar-applet/issues</url>
+  <url type="translate">https://www.transifex.com/danielpinto8zz6/budgie-calendar-applet</url>
+  <url type="donation">https://paypal.me/danielpinto8zz6</url>
+  <developer_name>Daniel Pinto</developer_name>
+  <updatecontact>danielpinto8zz6_AT_gmail.com</updatecontact>
+</component>

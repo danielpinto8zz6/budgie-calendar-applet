@@ -11,400 +11,404 @@
  */
 
 public class CalendarPlugin : Budgie.Plugin, Peas.ExtensionBase {
-public Budgie.Applet get_panel_widget(string uuid) {
-        return new CalendarApplet();
-}
+    public Budgie.Applet get_panel_widget (string uuid) {
+        return new CalendarApplet ();
+    }
 }
 
 enum ClockFormat {
-        TWENTYFOUR = 0,
-        TWELVE = 1;
+    TWENTYFOUR = 0, TWELVE = 1;
 }
 
 public const string CALENDAR_MIME = "text/calendar";
 
 public class CalendarApplet : Budgie.Applet {
 
-protected Gtk.EventBox widget;
-protected Gtk.Label clock;
-protected Gtk.Calendar calendar;
-protected Gtk.Popover popover;
-protected Gtk.Grid main_grid;
-protected Gtk.Button datetime_settings;
+    protected Gtk.Box layout;
+    protected Gtk.Button datetime_settings;
+    protected Gtk.Calendar calendar;
+    protected Gtk.EventBox widget;
+    protected Gtk.Grid main_grid;
+    protected Gtk.Grid preferences_grid;
+    protected Gtk.Label clock;
+    protected Gtk.Label date_label;
+    protected Gtk.Label seconds_label;
 
-protected bool ampm = false;
-protected bool show_seconds = false;
-protected bool show_date = false;
+    protected Settings settings;
 
-private const string date_format = "%e %b %Y";
+    protected bool ampm = false;
 
-private DateTime time;
+    AppInfo ? calprov = null;
 
-protected Settings settings;
+    Budgie.Popover ? popover = null;
 
-private unowned Budgie.PopoverManager ? manager = null;
+    Gtk.Orientation orient = Gtk.Orientation.HORIZONTAL;
 
-AppInfo ? calprov = null;
+    Gtk.Switch switch_date;
+    Gtk.Switch switch_format;
+    Gtk.Switch switch_seconds;
 
-public CalendarApplet() {
+    private DateTime time;
 
-        Intl.setlocale(LocaleCategory.ALL, "");
-        Intl.bindtextdomain(Config.GETTEXT_PACKAGE, Config.PACKAGE_LOCALEDIR);
-        Intl.bind_textdomain_codeset(Config.GETTEXT_PACKAGE, "UTF-8");
-        Intl.textdomain(Config.GETTEXT_PACKAGE);
+    private unowned Budgie.PopoverManager ? manager = null;
 
-// Setup the clock and popover
-        int position = 0;
+    ulong check_id;
 
-        widget = new Gtk.EventBox();
-        clock = new Gtk.Label("");
+    public override void panel_position_changed (Budgie.PanelPosition position) {
+        if (position == Budgie.PanelPosition.LEFT || position == Budgie.PanelPosition.RIGHT) {
+            this.orient = Gtk.Orientation.VERTICAL;
+        } else {
+            this.orient = Gtk.Orientation.HORIZONTAL;
+        }
+        this.seconds_label.set_text ("");
+        this.layout.set_orientation (this.orient);
+        this.update_clock ();
+    }
+
+    public CalendarApplet () {
+        Intl.setlocale (LocaleCategory.ALL, "");
+        Intl.bindtextdomain (Config.GETTEXT_PACKAGE, Config.PACKAGE_LOCALEDIR);
+        Intl.bind_textdomain_codeset (Config.GETTEXT_PACKAGE, "UTF-8");
+        Intl.textdomain (Config.GETTEXT_PACKAGE);
+
+        widget = new Gtk.EventBox ();
+        layout = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 2);
+        clock = new Gtk.Label ("");
         clock.valign = Gtk.Align.CENTER;
-        time = new DateTime.now_local();
-        widget.add(clock);
+        time = new DateTime.now_local ();
+        widget.add (layout);
         margin_bottom = 2;
 
-        popover = new Gtk.Popover(widget);
+        layout.pack_start (clock, false, false, 0);
+
+        seconds_label = new Gtk.Label ("");
+        seconds_label.get_style_context ().add_class ("dim-label");
+        layout.pack_start (seconds_label, false, false, 0);
+        seconds_label.no_show_all = true;
+        seconds_label.hide ();
+
+        date_label = new Gtk.Label ("");
+        layout.pack_start (date_label, false, false, 0);
+        date_label.no_show_all = true;
+        date_label.hide ();
+
+        settings = new Settings ("org.gnome.desktop.interface");
+
+        get_style_context ().add_class ("budgie-calendar-applet");
+
+        popover = new Budgie.Popover (widget);
+        var stack = new Gtk.Stack ();
+        popover.add (stack);
+        stack.set_homogeneous (true);
+        stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
 
         // Grid inside popover to put widgets
         main_grid = new Gtk.Grid ();
-        main_grid.can_focus = false;
+        main_grid.set_can_focus (false);
+        main_grid.set_margin_top (6);
+        main_grid.set_margin_start (6);
+        main_grid.set_margin_end (6);
+        main_grid.set_margin_bottom (6);
 
         // Show Week day
         var weekday_label = new Gtk.Label ("");
         weekday_label.get_style_context ().add_class ("h1");
-        weekday_label.halign = Gtk.Align.START;
-        weekday_label.margin_top = 10;
-        weekday_label.margin_start = 20;
-        weekday_label.set_label (time.format("%A"));
-        main_grid.attach (weekday_label, 0, position++, 7, 1);
+        weekday_label.set_halign (Gtk.Align.START);
+        weekday_label.set_margin_start (10);
+        weekday_label.set_label (time.format ("%A"));
+        main_grid.attach (weekday_label, 0, 0, 1, 1);
 
         // Show date
-        var date_label = new Gtk.Label ("");
-        date_label.get_style_context ().add_class ("h2");
-        date_label.halign = Gtk.Align.START;
-        date_label.margin_start = 20;
-        date_label.margin_top = 10;
-        date_label.margin_bottom = 15;
-        date_label.set_label (time.format("%e %B %Y"));
-        main_grid.attach (date_label, 0, position++, 8, 1);
+        var date_header = new Gtk.Label ("");
+        date_header.get_style_context ().add_class ("h2");
+        date_header.set_halign (Gtk.Align.START);
+        date_header.set_margin_start (10);
+        date_header.set_margin_bottom (10);
+        date_header.set_label (time.format ("%e %B %Y"));
+        main_grid.attach (date_header, 0, 1, 2, 1);
 
         // Time and Date settings Button
-        datetime_settings = new Gtk.Button.from_icon_name("emblem-system-symbolic", Gtk.IconSize.MENU);
-        datetime_settings.can_focus = false;
-        datetime_settings.margin_top = 10;
-        datetime_settings.margin_end = 6;
-        datetime_settings.clicked.connect(on_date_activate);
+        datetime_settings = new Gtk.Button.from_icon_name ("emblem-system-symbolic", Gtk.IconSize.MENU);
+        datetime_settings.set_halign (Gtk.Align.END);
+        datetime_settings.set_can_focus (false);
+        datetime_settings.clicked.connect (() => { stack.set_visible_child_name ("prefs"); });
         main_grid.attach_next_to (datetime_settings, weekday_label, Gtk.PositionType.RIGHT, 1, 1);
 
         // Calendar
-        calendar = new Gtk.Calendar();
-        calendar.can_focus = false;
-        calendar.margin_bottom = 6;
-        calendar.margin_start = 6;
-        calendar.margin_end = 6;
-        main_grid.attach (calendar, 0, position++, 8, 1);
+        calendar = new Gtk.Calendar ();
+        calendar.set_can_focus (false);
+        main_grid.attach (calendar, 0, 2, 2, 1);
 
-        // Show date when over mouse
-        widget.set_tooltip_text(time.format(date_format));
+        stack.add_named (main_grid, "root");
 
-        // Create the popover container
-        popover.add(main_grid);
+        preferences_grid = new Gtk.Grid ();
+        preferences_grid.set_can_focus (false);
 
-        // Click on clock show popover
-        widget.button_press_event.connect((e)=> {
-                        if (e.button != 1) {
-                                return Gdk.EVENT_PROPAGATE;
-                        }
-                        Toggle();
-                        return Gdk.EVENT_STOP;
-                });
-
-        // Setup calprov
-        calprov = AppInfo.get_default_for_type(CALENDAR_MIME, false);
-        var monitor = AppInfoMonitor.get();
-        monitor.changed.connect(update_cal);
-
-        // Cal clicked handler
-        calendar.day_selected_double_click.connect(on_cal_activate);
-
-        Timeout.add_seconds_full(GLib.Priority.LOW, 1, update_clock);
-
-        settings = new Settings("org.gnome.desktop.interface");
-        settings.changed.connect(on_settings_change);
-
-        on_settings_change("clock-format");
-        on_settings_change("clock-show-seconds");
-        on_settings_change("clock-show-date");
-
-        update_clock();
-        add(widget);
-        show_all();
-}
-
-public void Toggle(){
-        if (popover.get_visible()) {
-                popover.hide();
-        } else {
-                update_date();
-                popover.get_child().show_all();
-                this.manager.show_popover(widget);
-        }
-}
-
-private bool update_date()
-{
-        var time = new DateTime.now_local();
-        calendar.day = time.get_day_of_month();
-        return true;
-}
-
-public override void invoke_action(Budgie.PanelAction action) {
-        Toggle();
-}
-
-public override void update_popovers(Budgie.PopoverManager ? manager) {
-        this.manager = manager;
-        manager.register_popover(widget, popover);
-}
-
-protected void on_settings_change(string key) {
-        switch (key) {
-        case "clock-format":
-                ClockFormat f = (ClockFormat) settings.get_enum(key);
-                ampm = f == ClockFormat.TWELVE;
-                break;
-        case "clock-show-seconds":
-                show_seconds = settings.get_boolean(key);
-                break;
-        case "clock-show-date":
-                show_date = settings.get_boolean(key);
-                break;
-        }
-        if (get_toplevel() != null) {
-                get_toplevel().queue_draw();
-        }
-        /* Lazy update on next clock sync */
-}
-
-/**
- * This is called once every second, updating the time
- */
-protected bool update_clock() {
-        time = new DateTime.now_local();
-        string format;
-
-        if (ampm) {
-                format = "%l:%M";
-        } else {
-                format = "%H:%M";
-        }
-        if (show_seconds) {
-                format += ":%S";
-        }
-        if (ampm) {
-                format += " %p";
-        }
-        string ftime = " <big>%s</big> ".printf(format);
-        if (show_date) {
-                ftime += " <big>%x</big>";
-        }
-
-        var ctime = time.format(ftime);
-        clock.set_markup(ctime);
-
-        return true;
-}
-void update_cal()
-{
-        calprov = AppInfo.get_default_for_type(CALENDAR_MIME, false);
-}
-
-void on_date_activate()
-{
-        var app_info = new DesktopAppInfo("gnome-datetime-panel.desktop");
-
-        if (app_info == null) {
-                return;
-        }
-        try {
-                app_info.launch(null, null);
-        } catch (Error e) {
-                message(_("Unable to launch gnome-datetime-panel.desktop: %s"), e.message);
-        }
-}
-
-void on_cal_activate()
-{
-        if (calprov == null) {
-                return;
-        }
-        try {
-                calprov.launch(null, null);
-        } catch (Error e) {
-                message(_("Unable to launch %s: %s"), calprov.get_name(), e.message);
-        }
-}
-
-public override bool supports_settings() {
-        return true;
-}
-
-public override Gtk.Widget ? get_settings_ui() {
-        return new CalendarAppletSettings();
-}
-
-public class CalendarAppletSettings : Gtk.Box {
-
-protected Gtk.Label clock;
-private DateTime time;
-protected Settings settings;
-protected Settings applet_settings;
-protected string date_format;
-protected bool ampm = false;
-protected bool show_seconds = false;
-protected bool show_date = false;
-
-public CalendarAppletSettings() {
-
-        Intl.setlocale(LocaleCategory.ALL, "");
-        Intl.bindtextdomain(Config.GETTEXT_PACKAGE, Config.PACKAGE_LOCALEDIR);
-        Intl.bind_textdomain_codeset(Config.GETTEXT_PACKAGE, "UTF-8");
-        Intl.textdomain(Config.GETTEXT_PACKAGE);
-
-        settings = new Settings("org.gnome.desktop.interface");
-
-        var label_date = new Gtk.Label (_("Show date"));
+        var label_date = new Gtk.Label (_ ("Show date"));
         label_date.set_halign (Gtk.Align.START);
         label_date.set_hexpand (true);
-        var switch_date = new Gtk.Switch ();
+        switch_date = new Gtk.Switch ();
         switch_date.set_halign (Gtk.Align.END);
         switch_date.set_hexpand (true);
-        var label_seconds = new Gtk.Label (_("Show seconds"));
+
+        settings.bind ("clock-show-date", switch_date, "active", SettingsBindFlags.GET | SettingsBindFlags.SET);
+        settings.bind ("clock-show-date", date_label, "visible", SettingsBindFlags.DEFAULT);
+
+        var label_seconds = new Gtk.Label (_ ("Show seconds"));
         label_seconds.set_halign (Gtk.Align.START);
-        var switch_seconds = new Gtk.Switch ();
+        label_seconds.set_hexpand (true);
+        switch_seconds = new Gtk.Switch ();
         switch_seconds.set_halign (Gtk.Align.END);
-        var label_format = new Gtk.Label (_("Use 24h time"));
+        switch_seconds.set_hexpand (true);
+
+        settings.bind ("clock-show-seconds", switch_seconds, "active", SettingsBindFlags.GET | SettingsBindFlags.SET);
+        settings.bind ("clock-show-seconds", seconds_label, "visible", SettingsBindFlags.DEFAULT);
+
+        var label_format = new Gtk.Label (_ ("Use 24h time"));
         label_format.set_halign (Gtk.Align.START);
-        var switch_format = new Gtk.Switch ();
+        label_format.set_hexpand (true);
+        switch_format = new Gtk.Switch ();
         switch_format.set_halign (Gtk.Align.END);
+        switch_format.set_hexpand (true);
 
-        // Get current setting to set the switch button
-        if(settings.get_boolean ("clock-show-date") == true) {
-                switch_date.set_active (true);
-        }
-        if(settings.get_boolean ("clock-show-seconds") == true) {
-                switch_seconds.set_active (true);
-        }
-        if(settings.get_enum("clock-format") == ClockFormat.TWENTYFOUR) {
-                switch_format.set_active (true);
-        }
+        check_id = switch_format.notify["active"].connect (() => {
+            ClockFormat f = (ClockFormat) settings.get_enum ("clock-format");
+            ClockFormat newf = f == ClockFormat.TWELVE ? ClockFormat.TWENTYFOUR : ClockFormat.TWELVE;
+            this.settings.set_enum ("clock-format", newf);
+        });
 
-        switch_date.notify["active"].connect (date_switcher);
-        switch_seconds.notify["active"].connect (seconds_switcher);
+        // Time and Date settings
+        var time_and_date_settings = new Gtk.Button.with_label (_ ("Time and date settings"));
+        time_and_date_settings.clicked.connect (open_datetime_settings);
 
-        var grid = new Gtk.Grid ();
-        grid.can_focus = false;
-        grid.margin_start = 8;
-        grid.margin_end = 4;
-        grid.margin_top = 4;
-        grid.margin_bottom = 4;
-        grid.row_spacing = 10;
-        grid.column_spacing = 6;
-        grid.attach(label_date, 0, 0, 1, 1);
-        grid.attach(switch_date, 1, 0, 1, 1);
-        grid.attach(label_seconds, 0, 2, 1, 1);
-        grid.attach(switch_seconds, 1, 2, 1, 1);
-        grid.attach(label_format, 0, 3, 1, 1);
-        grid.attach(switch_format, 1, 3, 1, 1);
+        var back_main = new Gtk.Button.from_icon_name ("go-previous-symbolic", Gtk.IconSize.MENU);
+        back_main.set_halign (Gtk.Align.START);
+        back_main.set_can_focus (false);
+        back_main.clicked.connect (() => { stack.set_visible_child_name ("root"); });
 
-        settings.changed.connect(on_settings_change);
-        on_settings_change("clock-format");
-        on_settings_change("clock-show-seconds");
+        preferences_grid.set_can_focus (false);
+        preferences_grid.set_margin_start (6);
+        preferences_grid.set_margin_end (6);
+        preferences_grid.set_margin_top (6);
+        preferences_grid.set_margin_bottom (6);
+        preferences_grid.set_row_spacing (6);
+        preferences_grid.set_column_spacing (6);
+        preferences_grid.attach (back_main, 0, 0, 1, 1);
+        preferences_grid.attach (label_date, 0, 1, 1, 1);
+        preferences_grid.attach (switch_date, 1, 1, 1, 1);
+        preferences_grid.attach (label_seconds, 0, 2, 1, 1);
+        preferences_grid.attach (switch_seconds, 1, 2, 1, 1);
+        preferences_grid.attach (label_format, 0, 3, 1, 1);
+        preferences_grid.attach (switch_format, 1, 3, 1, 1);
+        preferences_grid.attach (time_and_date_settings, 0, 4, 1, 1);
 
-        add (grid);
+        stack.add_named (preferences_grid, "prefs");
 
-        show_all();
+        // Always open to the root page
+        popover.closed.connect (() => {
+            stack.set_visible_child_name ("root");
+        });
 
-}
-void date_switcher (Object switcher, ParamSpec pspec) {
-        if ((switcher as Gtk.Switch).get_active())
-        {
-                this.settings.set_boolean("clock-show-date", true);
-                Idle.add(()=> {
-                                        this.update_clock();
-                                        return false;
-                                });
-        }  else {
-                this.settings.set_boolean("clock-show-date", false);
-                Idle.add(()=> {
-                                        this.update_clock();
-                                        return false;
-                                });
-        }
-}
+        // Show date when over mouse
+        widget.set_tooltip_text (time.format ("%e %b %Y"));
 
-void seconds_switcher (Object switcher, ParamSpec pspec) {
-        if ((switcher as Gtk.Switch).get_active())
-        {
-                this.settings.set_boolean("clock-show-seconds", true);
-                Idle.add(()=> {
-                                        this.update_clock();
-                                        return false;
-                                });
-        }  else {
-                this.settings.set_boolean("clock-show-seconds", false);
-                Idle.add(()=> {
-                                        this.update_clock();
-                                        return false;
-                                });
-        }
-}
+        // Click on clock show popover
+        widget.button_press_event.connect ((e) => {
+            if (e.button != 1) {
+                return Gdk.EVENT_PROPAGATE;
+            }
+            if (popover.get_visible ()) {
+                popover.hide ();
+            } else {
+                var time = new DateTime.now_local ();
+                calendar.day = time.get_day_of_month ();
+                this.manager.show_popover (widget);
+            }
+            return Gdk.EVENT_STOP;
+        });
 
-protected void on_settings_change(string key) {
+        Timeout.add_seconds_full (GLib.Priority.LOW, 1, update_clock);
+
+        settings.changed.connect (on_settings_change);
+
+        // Setup calprov
+        calprov = AppInfo.get_default_for_type (CALENDAR_MIME, false);
+
+        var monitor = AppInfoMonitor.get ();
+        monitor.changed.connect (update_cal);
+
+        // Calendar clicked handler
+        calendar.set_sensitive (calprov != null);
+        calendar.day_selected_double_click.connect (() => { open_calendar (); });
+
+        update_cal ();
+
+        update_clock ();
+        add (widget);
+
+        on_settings_change ("clock-format");
+
+        popover.get_child ().show_all ();
+
+        show_all ();
+    }
+
+    public override void update_popovers (Budgie.PopoverManager ? manager) {
+        this.manager = manager;
+        manager.register_popover (widget, popover);
+    }
+
+    protected void on_settings_change (string key) {
         switch (key) {
         case "clock-format":
-                ClockFormat f = (ClockFormat) settings.get_enum(key);
-                ampm = f == ClockFormat.TWELVE;
-                break;
+            SignalHandler.block ((void *) this.switch_format, this.check_id);
+            ClockFormat f = (ClockFormat) settings.get_enum (key);
+            ampm = f == ClockFormat.TWELVE;
+            switch_format.set_active (f == ClockFormat.TWENTYFOUR);
+            this.update_clock ();
+            SignalHandler.unblock ((void *) this.switch_format, this.check_id);
+            break;
         case "clock-show-seconds":
-                show_seconds = settings.get_boolean(key);
-                break;
         case "clock-show-date":
-                show_date = settings.get_boolean(key);
-                break;
+            this.update_clock ();
+            break;
         }
-}
+    }
 
-protected bool update_clock() {
-        time = new DateTime.now_local();
+    /**
+     * Update the date if necessary
+     */
+    protected void update_date () {
+        if (!switch_date.get_active ()) {
+            return;
+        }
+        string ftime;
+        if (this.orient == Gtk.Orientation.HORIZONTAL) {
+            ftime = "%x";
+        } else {
+            ftime = "<small>%b %d</small>";
+        }
+
+        // Prevent unnecessary redraws
+        var old = date_label.get_label ();
+        var ctime = time.format (ftime);
+        if (old == ctime) {
+            return;
+        }
+
+        date_label.set_markup (ctime);
+    }
+
+    /**
+     * Update the seconds if necessary
+     */
+    protected void update_seconds () {
+        if (!switch_seconds.get_active ()) {
+            return;
+        }
+        string ftime;
+        if (this.orient == Gtk.Orientation.HORIZONTAL) {
+            ftime = "";
+        } else {
+            ftime = "<big>%S</big>";
+        }
+
+        // Prevent unnecessary redraws
+        var old = date_label.get_label ();
+        var ctime = time.format (ftime);
+        if (old == ctime) {
+            return;
+        }
+
+        seconds_label.set_markup (ctime);
+    }
+
+    /**
+     * This is called once every second, updating the time
+     */
+    protected bool update_clock () {
+        time = new DateTime.now_local ();
         string format;
 
+
         if (ampm) {
-                format = "%l:%M";
+            format = "%l:%M";
         } else {
-                format = "%H:%M";
-        }
-        if (show_seconds) {
-                format += ":%S";
-        }
-        if (ampm) {
-                format += " %p";
-        }
-        string ftime = " <big>%s</big> ".printf(format);
-        if (show_date) {
-                ftime += " <big>%x</big>";
+            format = "%H:%M";
         }
 
-        var ctime = time.format(ftime);
-        clock.set_markup(ctime);
+        if (orient == Gtk.Orientation.HORIZONTAL) {
+            if (switch_seconds.get_active ()) {
+                format += ":%S";
+            }
+        }
+
+        if (ampm) {
+            format += " %p";
+        }
+
+        string ftime;
+        if (this.orient == Gtk.Orientation.HORIZONTAL) {
+            ftime = " %s ".printf (format);
+        } else {
+            ftime = " <small>%s</small> ".printf (format);
+        }
+
+        this.update_date ();
+        this.update_seconds ();
+
+        // Prevent unnecessary redraws
+        var old = clock.get_label ();
+        var ctime = time.format (ftime);
+        if (old == ctime) {
+            return true;
+        }
+
+        clock.set_markup (ctime);
+        this.queue_draw ();
 
         return true;
-}
-}
+    }
+
+    void update_cal () {
+        calprov = AppInfo.get_default_for_type (CALENDAR_MIME, false);
+        calendar.set_sensitive (calprov != null);
+    }
+
+    void open_datetime_settings () {
+        this.popover.hide ();
+
+        var list = new List<string>();
+        list.append ("datetime");
+
+        try {
+            var appinfo =
+                AppInfo.create_from_commandline ("gnome-control-center",
+                                                 null,
+                                                 AppInfoCreateFlags.SUPPORTS_URIS);
+            appinfo.launch_uris (list, null);
+        } catch (Error e) {
+            message ("Unable to launch gnome-control-center datetime: %s", e.message);
+        }
+    }
+
+    protected void open_calendar () {
+        this.popover.hide ();
+
+        try {
+            var appinfo =
+                AppInfo.create_from_commandline (calprov.get_executable (),
+                                                 null,
+                                                 AppInfoCreateFlags.SUPPORTS_URIS);
+            appinfo.launch_uris (null, null);
+        } catch (Error e) {
+            message ("Unable to launch %s: %s", calprov.get_name (), e.message);
+        }
+    }
 }
 
 [ModuleInit]
-public void peas_register_types(TypeModule module) {
-        var objmodule = module as Peas.ObjectModule;
-        objmodule.register_extension_type(typeof (Budgie.Plugin), typeof (CalendarPlugin));
+public void peas_register_types (TypeModule module) {
+    var objmodule = module as Peas.ObjectModule;
+    objmodule.register_extension_type (typeof (Budgie.Plugin), typeof (CalendarPlugin));
 }

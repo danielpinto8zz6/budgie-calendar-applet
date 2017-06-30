@@ -33,8 +33,10 @@ public class CalendarApplet : Budgie.Applet {
     protected Gtk.Label clock;
     protected Gtk.Label date_label;
     protected Gtk.Label seconds_label;
+    protected Gtk.Entry custom_format;
 
     protected Settings settings;
+    protected Settings applet_settings;
 
     protected bool ampm = false;
 
@@ -47,6 +49,7 @@ public class CalendarApplet : Budgie.Applet {
     Gtk.Switch switch_date;
     Gtk.Switch switch_format;
     Gtk.Switch switch_seconds;
+    Gtk.Switch switch_custom_format;
 
     private DateTime time;
 
@@ -92,6 +95,7 @@ public class CalendarApplet : Budgie.Applet {
         date_label.no_show_all = true;
         date_label.hide ();
 
+        applet_settings = new Settings ("com.github.danielpinto8zz6.budgie-calendar-applet");
         settings = new Settings ("org.gnome.desktop.interface");
 
         get_style_context ().add_class ("budgie-calendar-applet");
@@ -177,6 +181,52 @@ public class CalendarApplet : Budgie.Applet {
             this.settings.set_enum ("clock-format", newf);
         });
 
+        var label_switch_custom_format = new Gtk.Label (_ ("Custom date format"));
+        label_switch_custom_format.set_halign (Gtk.Align.START);
+        label_switch_custom_format.set_hexpand (true);
+        switch_custom_format = new Gtk.Switch ();
+        switch_custom_format.set_halign (Gtk.Align.END);
+
+        string label_link = (_ ("Date format syntax information"));
+        Gtk.LinkButton linkbutton = new Gtk.LinkButton.with_label ("http://www.foragoodstrftime.com", label_link);
+
+        custom_format = new Gtk.Entry ();
+        custom_format.set_halign (Gtk.Align.FILL);
+        if (applet_settings.get_boolean ("custom-format-switch") == false) {
+            custom_format.set_sensitive (false);
+        }
+
+        // Print text to stdout on enter:
+        custom_format.activate.connect (() => {
+            unowned string str = custom_format.get_text ();
+            stdout.printf ("%s\n", str);
+            applet_settings.set_string ("custom-format", str);
+        });
+
+        // Add a delete-button:
+        custom_format.set_icon_from_icon_name (Gtk.EntryIconPosition.SECONDARY, "edit-clear");
+        custom_format.icon_press.connect ((pos, event) => {
+            if (pos == Gtk.EntryIconPosition.SECONDARY) {
+                custom_format.set_text ("");
+            }
+        });
+
+        applet_settings.bind ("custom-format-switch", switch_custom_format, "active", SettingsBindFlags.GET | SettingsBindFlags.SET);
+
+        switch_custom_format.notify["active"].connect (() => {
+            if ((switch_custom_format as Gtk.Switch).get_active ()) {
+                custom_format.set_sensitive (true);
+                switch_date.set_sensitive (false);
+                switch_seconds.set_sensitive (false);
+                switch_format.set_sensitive (false);
+            } else {
+                custom_format.set_sensitive (false);
+                switch_date.set_sensitive (true);
+                switch_seconds.set_sensitive (true);
+                switch_format.set_sensitive (true);
+            }
+        });
+
         // Time and Date settings
         var time_and_date_settings = new Gtk.Button.with_label (_ ("Time and date settings"));
         time_and_date_settings.clicked.connect (open_datetime_settings);
@@ -186,6 +236,15 @@ public class CalendarApplet : Budgie.Applet {
         back_main.set_can_focus (false);
         back_main.clicked.connect (() => { stack.set_visible_child_name ("root"); });
 
+        var about = new Gtk.Button.from_icon_name ("dialog-information-symbolic", Gtk.IconSize.MENU);
+        about.set_halign (Gtk.Align.END);
+        about.set_can_focus (false);
+        about.clicked.connect (() => { about_dialog (); });
+
+        Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
+        separator.set_margin_top (4);
+        separator.set_margin_bottom (4);
+
         preferences_grid.set_can_focus (false);
         preferences_grid.set_margin_start (6);
         preferences_grid.set_margin_end (6);
@@ -194,13 +253,19 @@ public class CalendarApplet : Budgie.Applet {
         preferences_grid.set_row_spacing (6);
         preferences_grid.set_column_spacing (6);
         preferences_grid.attach (back_main, 0, 0, 1, 1);
-        preferences_grid.attach (label_date, 0, 1, 1, 1);
-        preferences_grid.attach (switch_date, 1, 1, 1, 1);
-        preferences_grid.attach (label_seconds, 0, 2, 1, 1);
-        preferences_grid.attach (switch_seconds, 1, 2, 1, 1);
-        preferences_grid.attach (label_format, 0, 3, 1, 1);
-        preferences_grid.attach (switch_format, 1, 3, 1, 1);
-        preferences_grid.attach (time_and_date_settings, 0, 4, 1, 1);
+        preferences_grid.attach (about, 1, 0, 1, 1);
+        preferences_grid.attach (separator, 0, 1, 2, 1);
+        preferences_grid.attach (label_date, 0, 2, 1, 1);
+        preferences_grid.attach (switch_date, 1, 2, 1, 1);
+        preferences_grid.attach (label_seconds, 0, 3, 1, 1);
+        preferences_grid.attach (switch_seconds, 1, 3, 1, 1);
+        preferences_grid.attach (label_format, 0, 4, 1, 1);
+        preferences_grid.attach (switch_format, 1, 4, 1, 1);
+        preferences_grid.attach (label_switch_custom_format, 0, 5, 1, 1);
+        preferences_grid.attach (switch_custom_format, 1, 5, 1, 1);
+        preferences_grid.attach (custom_format, 0, 6, 2, 1);
+        preferences_grid.attach (linkbutton, 0, 7, 2, 1);
+        preferences_grid.attach (time_and_date_settings, 0, 8, 2, 1);
 
         stack.add_named (preferences_grid, "prefs");
 
@@ -230,6 +295,7 @@ public class CalendarApplet : Budgie.Applet {
         Timeout.add_seconds_full (GLib.Priority.LOW, 1, update_clock);
 
         settings.changed.connect (on_settings_change);
+        applet_settings.changed.connect (on_applet_settings_change);
 
         // Setup calprov
         calprov = AppInfo.get_default_for_type (CALENDAR_MIME, false);
@@ -247,6 +313,8 @@ public class CalendarApplet : Budgie.Applet {
         add (widget);
 
         on_settings_change ("clock-format");
+
+        on_applet_settings_change ("custom-format");
 
         popover.get_child ().show_all ();
 
@@ -275,9 +343,21 @@ public class CalendarApplet : Budgie.Applet {
         }
     }
 
-    /**
-     * Update the date if necessary
-     */
+    protected void on_applet_settings_change (string key) {
+        switch (key) {
+        case "custom-format":
+            custom_format.set_text (applet_settings.get_string (key));
+            this.update_clock ();
+            break;
+        case "custom-format-switch":
+            this.update_clock ();
+            break;
+        }
+    }
+
+/**
+ * Update the date if necessary
+ */
     protected void update_date () {
         if (!switch_date.get_active ()) {
             return;
@@ -299,9 +379,9 @@ public class CalendarApplet : Budgie.Applet {
         date_label.set_markup (ctime);
     }
 
-    /**
-     * Update the seconds if necessary
-     */
+/**
+ * Update the seconds if necessary
+ */
     protected void update_seconds () {
         if (!switch_seconds.get_active ()) {
             return;
@@ -323,28 +403,32 @@ public class CalendarApplet : Budgie.Applet {
         seconds_label.set_markup (ctime);
     }
 
-    /**
-     * This is called once every second, updating the time
-     */
+/**
+ * This is called once every second, updating the time
+ */
     protected bool update_clock () {
         time = new DateTime.now_local ();
         string format;
 
-
-        if (ampm) {
-            format = "%l:%M";
+        if (switch_custom_format.get_active ()) {
+            unowned string title = custom_format.get_text ();
+            format = title;
         } else {
-            format = "%H:%M";
-        }
-
-        if (orient == Gtk.Orientation.HORIZONTAL) {
-            if (switch_seconds.get_active ()) {
-                format += ":%S";
+            if (ampm) {
+                format = "%l:%M";
+            } else {
+                format = "%H:%M";
             }
-        }
 
-        if (ampm) {
-            format += " %p";
+            if (orient == Gtk.Orientation.HORIZONTAL) {
+                if (switch_seconds.get_active ()) {
+                    format += ":%S";
+                }
+            }
+
+            if (ampm) {
+                format += " %p";
+            }
         }
 
         string ftime;
@@ -404,6 +488,37 @@ public class CalendarApplet : Budgie.Applet {
         } catch (Error e) {
             message ("Unable to launch %s: %s", calprov.get_name (), e.message);
         }
+    }
+
+    void about_dialog () {
+        this.popover.hide ();
+
+        // Configure the dialog:
+        Gtk.AboutDialog dialog = new Gtk.AboutDialog ();
+        dialog.set_destroy_with_parent (true);
+        dialog.set_modal (true);
+
+        dialog.authors = { "Daniel Pinto <danielpinto8zz6@gmail.com>" };
+        dialog.documenters = null; // Real inventors don't document.
+        dialog.translator_credits = null; // We only need a scottish version.
+
+        dialog.program_name = "Budgie Calendar Applet";
+        dialog.comments = "A budgie-desktop applet to show hours, date, and Calendar";
+        dialog.copyright = "Copyright © 2016-2017 danielpinto8zz6";
+        dialog.version = "3.0";
+        dialog.logo_icon_name = "calendar";
+
+        dialog.license_type = Gtk.License.GPL_2_0;
+
+        dialog.website = "https://github.com/danielpinto8zz6/budgie-calendar-applet";
+        dialog.website_label = "budgie-calendar-applet";
+
+        dialog.response.connect ((response_id) => {
+            if (response_id == Gtk.ResponseType.CANCEL || response_id == Gtk.ResponseType.DELETE_EVENT) {
+                dialog.hide_on_delete ();
+            }
+        });
+        dialog.present ();
     }
 }
 

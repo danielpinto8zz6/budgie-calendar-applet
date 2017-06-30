@@ -1,0 +1,18 @@
+<schemalist>
+  <schema id="com.github.danielpinto8zz6.budgie-calendar-applet" path="/com/github/danielpinto8zz6/budgie-calendar-applet/" gettext-domain="budgie-calendar-applet">
+    <key name="custom-format-switch" type="b">
+      <default>false</default>
+      <summary>Clock Format</summary>
+      <description>
+        Enable or disable custom clock format
+      </description>
+    </key>
+    <key name="custom-format" type="s">
+      <default l10n="messages">"%e %b %Y - %H:%M"</default>
+      <summary>Clock Format</summary>
+      <description>
+        Show the clock at the format you want
+      </description>
+    </key>
+  </schema>
+</schemalist>

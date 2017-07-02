@@ -1,2 +1,1 @@
-budgie-calendar-applet/CalendarApplet.vala
-[type: gettext/keys]budgie-calendar-applet/CalendarApplet.plugin.in
+src/CalendarApplet.vala

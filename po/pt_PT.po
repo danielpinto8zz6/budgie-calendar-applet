@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-18 20:36+0100\n"
+"POT-Creation-Date: 2017-07-02 05:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: daniel pinto <danielpinto8zz6@gmail.com>, 2017\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/danielpinto8zz6/teams/75894/pt_PT/)\n"
@@ -18,28 +18,27 @@ msgstr ""
 "Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../budgie-calendar-applet/CalendarApplet.vala:232
-#, c-format
-msgid "Unable to launch gnome-datetime-panel.desktop: %s"
-msgstr "Não é possível abrir gnome-datetime-panel.desktop: %s"
-
-#: ../budgie-calendar-applet/CalendarApplet.vala:244
-#, c-format
-msgid "Unable to launch %s: %s"
-msgstr "Não é possível abrir %s:%s"
-
-#: ../budgie-calendar-applet/CalendarApplet.vala:271
+#: ../src/CalendarApplet.vala:155
 msgid "Show date"
 msgstr "Mostrar data"
 
-#: ../budgie-calendar-applet/CalendarApplet.vala:277
+#: ../src/CalendarApplet.vala:165
 msgid "Show seconds"
 msgstr "Mostrar segundos"
 
-#: ../budgie-calendar-applet/CalendarApplet.vala:281
+#: ../src/CalendarApplet.vala:175
 msgid "Use 24h time"
 msgstr "Usar formato 24h"
 
-#: ../budgie-calendar-applet/CalendarApplet.plugin.in.h:1
-msgid "Calendar"
-msgstr "Calendário"
+#: ../src/CalendarApplet.vala:188
+msgid "Custom date"
+msgstr "Data personalizada"
+
+#: ../src/CalendarApplet.vala:194
+msgid "Date format syntax"
+msgstr "Sintaxe do formato da data"
+
+#. Time and Date settings
+#: ../src/CalendarApplet.vala:235
+msgid "Time and date settings"
+msgstr "Definições de data e hora"

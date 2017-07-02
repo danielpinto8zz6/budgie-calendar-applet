@@ -185,13 +185,13 @@ public class CalendarApplet : Budgie.Applet {
             this.settings.set_enum ("clock-format", newf);
         });
 
-        var label_switch_custom_format = new Gtk.Label (_ ("Custom date format"));
+        var label_switch_custom_format = new Gtk.Label (_ ("Custom date"));
         label_switch_custom_format.set_halign (Gtk.Align.START);
         label_switch_custom_format.set_hexpand (true);
         switch_custom_format = new Gtk.Switch ();
         switch_custom_format.set_halign (Gtk.Align.END);
 
-        string label_link = (_ ("Date format syntax information"));
+        string label_link = (_ ("Date format syntax"));
         Gtk.LinkButton linkbutton = new Gtk.LinkButton.with_label ("http://www.foragoodstrftime.com", label_link);
 
         custom_format = new Gtk.Entry ();

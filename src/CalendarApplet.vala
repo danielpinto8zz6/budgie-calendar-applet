@@ -123,7 +123,6 @@ public class CalendarApplet : Budgie.Applet {
         weekday_label.get_style_context ().add_class ("h1");
         weekday_label.set_halign (Gtk.Align.START);
         weekday_label.set_margin_start (10);
-        weekday_label.set_label (time.format ("%A"));
         main_grid.attach (weekday_label, 0, 0, 1, 1);
 
         // Show date
@@ -132,7 +131,6 @@ public class CalendarApplet : Budgie.Applet {
         date_header.set_halign (Gtk.Align.START);
         date_header.set_margin_start (10);
         date_header.set_margin_bottom (10);
-        date_header.set_label (time.format ("%e %B %Y"));
         main_grid.attach (date_header, 0, 1, 2, 1);
 
         // Time and Date settings Button
@@ -291,6 +289,8 @@ public class CalendarApplet : Budgie.Applet {
             } else {
                 var time = new DateTime.now_local ();
                 calendar.day = time.get_day_of_month ();
+                weekday_label.set_label (time.format ("%A"));
+                date_header.set_label (time.format ("%e %B %Y"));
                 this.manager.show_popover (widget);
             }
             return Gdk.EVENT_STOP;

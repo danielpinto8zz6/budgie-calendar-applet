@@ -1,0 +1,44 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-02 05:20+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Mailaender <matthias@mailaender.name>, 2017\n"
+"Language-Team: German (https://www.transifex.com/danielpinto8zz6/teams/75894/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../src/CalendarApplet.vala:155
+msgid "Show date"
+msgstr "Zeige Datum"
+
+#: ../src/CalendarApplet.vala:165
+msgid "Show seconds"
+msgstr "Zeige Sekunden"
+
+#: ../src/CalendarApplet.vala:175
+msgid "Use 24h time"
+msgstr "24-Stunden-Zählung"
+
+#: ../src/CalendarApplet.vala:188
+msgid "Custom date"
+msgstr "Benutzerdefiniertes Datum"
+
+#: ../src/CalendarApplet.vala:194
+msgid "Date format syntax"
+msgstr "Datumsformatierung"
+
+#. Time and Date settings
+#: ../src/CalendarApplet.vala:235
+msgid "Time and date settings"
+msgstr "Zeit- und Datumseinstellungen"

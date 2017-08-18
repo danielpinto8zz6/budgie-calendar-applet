@@ -1,6 +1,6 @@
  i18n = import('i18n')
 
-langs = ['pt_PT']
+langs = ['de','fr','lt','pt_PT']
 
 # Stolen from gnome-twitch
 i18n.gettext('budgie-calendar-applet', languages: langs, args: [

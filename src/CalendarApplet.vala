@@ -509,7 +509,7 @@ public class CalendarApplet : Budgie.Applet {
         dialog.program_name = "Budgie Calendar Applet";
         dialog.comments = "A budgie-desktop applet to show hours, date, and Calendar";
         dialog.copyright = "Copyright © 2016-2017 danielpinto8zz6";
-        dialog.version = "3.0";
+        dialog.version = "4.0";
         dialog.logo_icon_name = "calendar";
 
         dialog.license_type = Gtk.License.GPL_2_0;

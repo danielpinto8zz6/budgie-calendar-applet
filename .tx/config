@@ -1,8 +1,7 @@
 [main]
 host = https://www.transifex.com
 
-[budgie-calendar-applet.budgie-calendar-appletpot]
+[budgie-calendar-applet.budgie-calendar-applet]
 file_filter = po/<lang>.po
-source_file = po/budgie-calendar-applet.pot
 source_lang = en
 type = PO

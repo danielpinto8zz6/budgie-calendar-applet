@@ -10,35 +10,35 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-02 05:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Moo, 2017\n"
-"Language-Team: Lithuanian (https://www.transifex.com/danielpinto8zz6/teams/75894/lt/)\n"
+"Last-Translator: Juan Carlos <juanvelandia@protonmail.com>, 2017\n"
+"Language-Team: Spanish (https://www.transifex.com/danielpinto8zz6/teams/75894/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/CalendarApplet.vala:155
 msgid "Show date"
-msgstr "Rodyti datą"
+msgstr "Mostrar fecha"
 
 #: ../src/CalendarApplet.vala:165
 msgid "Show seconds"
-msgstr "Rodyti sekundes"
+msgstr "Mostrar segundos"
 
 #: ../src/CalendarApplet.vala:175
 msgid "Use 24h time"
-msgstr "Naudoti 24 valandų laiką"
+msgstr "Formato 24h"
 
 #: ../src/CalendarApplet.vala:188
 msgid "Custom date"
-msgstr "Tinkinta data"
+msgstr "Fecha personalizada"
 
 #: ../src/CalendarApplet.vala:194
 msgid "Date format syntax"
-msgstr "Datos formato sintaksė"
+msgstr "Sintaxis del formato de fecha"
 
 #. Time and Date settings
 #: ../src/CalendarApplet.vala:235
 msgid "Time and date settings"
-msgstr "Laiko ir datos nustatymai"
+msgstr "Ajustes de hora y fecha"

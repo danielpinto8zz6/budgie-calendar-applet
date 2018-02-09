@@ -218,6 +218,18 @@ public class CalendarApplet : Budgie.Applet {
 
         applet_settings.bind ("custom-format-switch", switch_custom_format, "active", SettingsBindFlags.GET | SettingsBindFlags.SET);
 
+        if (switch_custom_format.get_active()){
+            custom_format.set_sensitive (true);
+            switch_date.set_sensitive (false);
+            switch_seconds.set_sensitive (false);
+            switch_format.set_sensitive (false);
+      } else {
+            custom_format.set_sensitive (false);
+            switch_date.set_sensitive (true);
+            switch_seconds.set_sensitive (true);
+            switch_format.set_sensitive (true);
+        }
+
         switch_custom_format.notify["active"].connect (() => {
             if ((switch_custom_format as Gtk.Switch).get_active ()) {
                 custom_format.set_sensitive (true);

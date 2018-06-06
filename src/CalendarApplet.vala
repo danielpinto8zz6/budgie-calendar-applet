@@ -98,6 +98,10 @@ public class CalendarApplet : Budgie.Applet {
         clock.valign = Gtk.Align.CENTER;
         seconds_label.valign = Gtk.Align.CENTER;
         date_label.valign = Gtk.Align.CENTER;
+        
+        clock.set_justify (Gtk.Justification.CENTER);
+        seconds_label.set_justify (Gtk.Justification.CENTER);
+        date_label.set_justify (Gtk.Justification.CENTER);
 
         applet_settings = new Settings ("com.github.danielpinto8zz6.budgie-calendar-applet");
         settings = new Settings ("org.gnome.desktop.interface");

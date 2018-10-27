@@ -69,6 +69,10 @@ namespace CalendarApplet {
             var time_and_date_settings = new Gtk.Button.with_label (_ ("Time and date settings"));
             time_and_date_settings.clicked.connect (open_datetime_settings);
 
+            var about = new Gtk.Button.from_icon_name ("dialog-information-symbolic", Gtk.IconSize.MENU);
+            about.clicked.connect (about_dialog);
+
+            attach (about,                      0, 0, 2, 1);
             attach (label_date,                 0, 2, 1, 1);
             attach (switch_date,                1, 2, 1, 1);
             attach (label_seconds,              0, 3, 1, 1);
@@ -147,6 +151,34 @@ namespace CalendarApplet {
             } catch (Error e) {
                 message ("Unable to launch gnome-control-center datetime: %s", e.message);
             }
+        }
+
+        void about_dialog () {
+            Gtk.AboutDialog dialog = new Gtk.AboutDialog ();
+            dialog.set_destroy_with_parent (true);
+            dialog.set_modal (true);
+
+            dialog.authors = { "Daniel Pinto <danielpinto8zz6@gmail.com>" };
+            dialog.documenters = null; // Real inventors don't document.
+            dialog.translator_credits = null; // We only need a scottish version.
+
+            dialog.program_name = "Budgie Calendar Applet";
+            dialog.comments = "A budgie-desktop applet to show hours, date, and Calendar";
+            dialog.copyright = "Copyright © 2016-2018 danielpinto8zz6";
+            dialog.version = Config.PACKAGE_VERSION;
+            dialog.logo_icon_name = "calendar";
+
+            dialog.license_type = Gtk.License.GPL_2_0;
+
+            dialog.website = "https://github.com/danielpinto8zz6/budgie-calendar-applet";
+            dialog.website_label = "budgie-calendar-applet";
+
+            dialog.response.connect ((response_id) => {
+                if (response_id == Gtk.ResponseType.CANCEL || response_id == Gtk.ResponseType.DELETE_EVENT) {
+                    dialog.hide_on_delete ();
+                }
+            });
+            dialog.present ();
         }
     }
 }

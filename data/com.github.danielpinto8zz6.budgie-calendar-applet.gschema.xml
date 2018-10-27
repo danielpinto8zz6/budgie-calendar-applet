@@ -1,6 +1,6 @@
 <schemalist>
   <schema id="com.github.danielpinto8zz6.budgie-calendar-applet" path="/com/github/danielpinto8zz6/budgie-calendar-applet/" gettext-domain="budgie-calendar-applet">
-    <key name="custom-format-switch" type="b">
+    <key name="show-custom-format" type="b">
       <default>false</default>
       <summary>Clock Format</summary>
       <description>

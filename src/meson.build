@@ -10,7 +10,8 @@ conf_data.set('PACKAGE_NAME', meson.project_name())
 conf_data.set('LOCALE_DIR', LOCALE_DIR)
 configure_file(input: 'config.h.in', output: 'config.h', configuration: conf_data)
 
-bha_sources = ['CalendarApplet.vala']
+bha_sources = ['CalendarApplet.vala',
+               'CalendarAppletSettings.vala']
 
 bha_deps = [dependency('gtk+-3.0', version: '>=3.18'),
             dependency('budgie-1.0', version: '>=2')]

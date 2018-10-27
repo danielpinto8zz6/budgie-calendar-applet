@@ -1,8 +1,14 @@
-project('budgie-calendar-applet',
+project('com.github.danielpinto8zz6.budgie-calendar-applet',
         ['vala', 'c'],
         version: '5.0',
         meson_version: '>=0.40.0',
         license: 'GPL2')
+
+add_project_arguments([
+    '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name())
+],
+    language: 'c',
+)
 
 i18n = import('i18n')
 

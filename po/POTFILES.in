@@ -1,1 +1,5 @@
-src/CalendarApplet.vala
+data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in
+data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml
+data/com.github.danielpinto8zz6.budgie-calendar-applet.plugin.in
+src/Applet.vala
+src/AppletSettings.vala

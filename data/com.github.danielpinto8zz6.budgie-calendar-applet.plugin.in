@@ -1,0 +1,8 @@
+[Plugin]
+Module=calendarapplet.so
+Name=Calendar
+Description=Calendar Applet
+Authors=Daniel Pinto
+Copyright=Copyright © 2017-2018 Daniel Pinto
+Website=https://github.com/danielpinto8zz6/budgie-calendar-applet
+Icon=x-office-calendar

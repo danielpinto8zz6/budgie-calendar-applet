@@ -1,5 +1,5 @@
 # calendar-applet
-A budgie-desktop applet to show hours and when click show a calendar in a popover
+A budgie-desktop applet to show hours with custom formats and a calendar in a popover
 
 ## Dependencies
 ```
@@ -15,10 +15,9 @@ sudo eopkg it budgie-desktop-devel libgnome-desktop-devel vala
 
 ### Installing from source
 ```
-mkdir build && cd build
-meson --prefix /usr --buildtype=plain ..
-ninja
-sudo ninja install
+meson build --prefix /usr --buildtype=plain
+ninja -C build
+sudo ninja -C build install
 ```
 
 ### Arch

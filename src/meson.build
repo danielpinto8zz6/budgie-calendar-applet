@@ -26,4 +26,4 @@ shared_library('calendarapplet', bha_sources,
                vala_args: bha_vala_args,
                c_args: bha_c_args,
                install: true,
-               install_dir: LIB_INSTALL_DIR)
+               install_dir: lib_install_dir)

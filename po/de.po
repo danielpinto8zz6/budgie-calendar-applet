@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the com.github.danielpinto8zz6.budgie-calendar-applet package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: com.github.danielpinto8zz6.budgie-calendar-applet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-02 05:20+0100\n"
+"POT-Creation-Date: 2018-10-27 07:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mailaender <matthias@mailaender.name>, 2017\n"
 "Language-Team: German (https://www.transifex.com/danielpinto8zz6/teams/75894/de/)\n"
@@ -18,27 +18,61 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/CalendarApplet.vala:155
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:8
+msgid "Budgie Calendar Applet"
+msgstr ""
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:9
+msgid "Calendar applet for Budgie Desktop"
+msgstr ""
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:11
+msgid ""
+"A budgie-desktop applet to show hours and when click show a calendar in a "
+"popover."
+msgstr ""
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:24
+msgid "Daniel Pinto"
+msgstr ""
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:5
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:12
+msgid "Clock Format"
+msgstr ""
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:6
+msgid "Enable or disable custom clock format"
+msgstr ""
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:11
+msgid "\"%e %b %Y - %H:%M\""
+msgstr ""
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:13
+msgid "Show the clock at the format you want"
+msgstr ""
+
+#: src/AppletSettings.vala:31
 msgid "Show date"
 msgstr "Zeige Datum"
 
-#: ../src/CalendarApplet.vala:165
+#: src/AppletSettings.vala:38
 msgid "Show seconds"
 msgstr "Zeige Sekunden"
 
-#: ../src/CalendarApplet.vala:175
+#: src/AppletSettings.vala:45
 msgid "Use 24h time"
 msgstr "24-Stunden-Zählung"
 
-#: ../src/CalendarApplet.vala:188
+#: src/AppletSettings.vala:52
 msgid "Custom date"
 msgstr "Benutzerdefiniertes Datum"
 
-#: ../src/CalendarApplet.vala:194
+#: src/AppletSettings.vala:58
 msgid "Date format syntax"
 msgstr "Datumsformatierung"
 
-#. Time and Date settings
-#: ../src/CalendarApplet.vala:235
+#: src/AppletSettings.vala:69
 msgid "Time and date settings"
 msgstr "Zeit- und Datumseinstellungen"

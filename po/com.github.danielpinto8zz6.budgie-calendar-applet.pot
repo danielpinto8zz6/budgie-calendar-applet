@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.github.danielpinto8zz6.budgie-calendar-applet package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -10,13 +10,12 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-27 07:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Edgar Fournival <edgar.fournival@hotmail.fr>, 2017\n"
-"Language-Team: French (https://www.transifex.com/danielpinto8zz6/teams/75894/fr/)\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:8
 msgid "Budgie Calendar Applet"
@@ -55,24 +54,24 @@ msgstr ""
 
 #: src/AppletSettings.vala:31
 msgid "Show date"
-msgstr "Afficher la date"
+msgstr ""
 
 #: src/AppletSettings.vala:38
 msgid "Show seconds"
-msgstr "Afficher les secondes"
+msgstr ""
 
 #: src/AppletSettings.vala:45
 msgid "Use 24h time"
-msgstr "Utiliser le système horaire sur 24 heures"
+msgstr ""
 
 #: src/AppletSettings.vala:52
 msgid "Custom date"
-msgstr "Date personnalisée"
+msgstr ""
 
 #: src/AppletSettings.vala:58
 msgid "Date format syntax"
-msgstr "Syntaxe pour le formatage de la date"
+msgstr ""
 
 #: src/AppletSettings.vala:69
 msgid "Time and date settings"
-msgstr "Paramètres de l'heure et de la date"
+msgstr ""

@@ -293,8 +293,12 @@ public class CalendarApplet : Budgie.Applet {
 
     public void update_headers () {
         var time = new DateTime.now_local ();
-        day_of_week_header.set_label (time.format ("%A"));
-        date_header.set_label (time.format ("%e %B %Y"));
+        string day_of_week = time.format ("%A");
+        day_of_week = day_of_week.substring (0,1).up () + day_of_week.substring (1);
+        day_of_week_header.set_label (day_of_week);
+
+        string date = time.format ("%e %B %Y");
+        date_header.set_label (date);
     }
 
     public override bool supports_settings () {

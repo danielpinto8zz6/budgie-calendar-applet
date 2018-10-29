@@ -115,22 +115,25 @@ namespace CalendarApplet {
             switch_seconds.active = settings.get_boolean ("clock-show-seconds");
             switch_format.active = applet_settings.get_boolean ("show-custom-format");
             on_settings_changed ("clock-format");
-            on_settings_changed ("custom-format");
+            custom_format.text = applet_settings.get_string ("custom-format");
 
             settings.bind ("clock-show-date",    switch_date,    "active", SettingsBindFlags.DEFAULT);
             settings.bind ("clock-show-seconds", switch_seconds, "active", SettingsBindFlags.DEFAULT);
             applet_settings.bind ("show-custom-format", switch_custom_format, "active", SettingsBindFlags.DEFAULT);
+            applet_settings.bind ("custom-format",      custom_format,          "text", SettingsBindFlags.DEFAULT);
+
+            switch_format.notify["active"].connect (() => {
+                ClockFormat f = (switch_format.active ? ClockFormat.TWENTYFOUR : ClockFormat.TWELVE);
+                settings.set_enum ("clock-format", f);
+            });
+
             settings.changed.connect (on_settings_changed);
-            applet_settings.changed.connect (on_settings_changed);
 
             show_all ();
         }
 
         private void on_settings_changed (string key) {
             switch (key) {
-            case "custom-format" :
-                custom_format.text = applet_settings.get_string ("custom-format");
-                break;
             case "clock-format" :
                 ClockFormat f = (ClockFormat)settings.get_enum ("clock-format");
                 switch_format.active = (f == ClockFormat.TWENTYFOUR);

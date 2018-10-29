@@ -64,10 +64,10 @@ namespace CalendarApplet {
         }
 
         public Applet () {
-            GLib.Intl.setlocale(GLib.LocaleCategory.ALL, "");
-            GLib.Intl.bindtextdomain(Config.GETTEXT_PACKAGE, Config.LOCALE_DIR);
-            GLib.Intl.bind_textdomain_codeset(Config.GETTEXT_PACKAGE, "UTF-8");
-            GLib.Intl.textdomain(Config.GETTEXT_PACKAGE);
+            GLib.Intl.setlocale (GLib.LocaleCategory.ALL, "");
+            GLib.Intl.bindtextdomain (Config.GETTEXT_PACKAGE, Config.LOCALE_DIR);
+            GLib.Intl.bind_textdomain_codeset (Config.GETTEXT_PACKAGE, "UTF-8");
+            GLib.Intl.textdomain (Config.GETTEXT_PACKAGE);
 
             widget = new Gtk.EventBox ();
             layout = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 2);

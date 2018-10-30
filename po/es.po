@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.danielpinto8zz6.budgie-calendar-applet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-27 07:50+0100\n"
+"POT-Creation-Date: 2018-10-27 08:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Juan Carlos <juanvelandia@protonmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/danielpinto8zz6/teams/75894/es/)\n"
@@ -28,8 +28,8 @@ msgstr ""
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:11
 msgid ""
-"A budgie-desktop applet to show hours and when click show a calendar in a "
-"popover."
+"A budgie-desktop applet to show hours with custom formats and a calendar in "
+"a popover"
 msgstr ""
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:24

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.danielpinto8zz6.budgie-calendar-applet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-27 07:50+0100\n"
+"POT-Creation-Date: 2018-10-27 08:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: daniel pinto <danielpinto8zz6@gmail.com>, 2017\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/danielpinto8zz6/teams/75894/pt_PT/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:8
 msgid "Budgie Calendar Applet"
-msgstr ""
+msgstr "Budgie Calendar Applet"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:9
 msgid "Calendar applet for Budgie Desktop"
@@ -28,9 +28,11 @@ msgstr "Applet de calendário para budgie desktop"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:11
 msgid ""
-"A budgie-desktop applet to show hours and when click show a calendar in a "
-"popover."
+"A budgie-desktop applet to show hours with custom formats and a calendar in "
+"a popover"
 msgstr ""
+"Um applet para o desktop-budgie que mostra as horas com formatos "
+"personalizados e um calendário em um popover"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:24
 msgid "Daniel Pinto"
@@ -47,7 +49,7 @@ msgstr "Ativar ou desativar o formato de relógio personalizado"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:11
 msgid "\"%e %b %Y - %H:%M\""
-msgstr ""
+msgstr "\"\\\"%e %b %Y - %H:%M\\\""
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:13
 msgid "Show the clock at the format you want"

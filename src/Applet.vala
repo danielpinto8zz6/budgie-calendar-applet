@@ -52,6 +52,8 @@ namespace CalendarApplet {
         private Gtk.Label day_of_week_header;
         private Gtk.Label date_header;
 
+        private Gtk.Calendar calendar;
+
         public override void panel_position_changed (Budgie.PanelPosition position) {
             if (position == Budgie.PanelPosition.LEFT || position == Budgie.PanelPosition.RIGHT) {
                 this.orient = Gtk.Orientation.VERTICAL;
@@ -115,7 +117,7 @@ namespace CalendarApplet {
             date_header.margin_start = 6;
             date_header.margin_bottom = 12;
 
-            var calendar = new Gtk.Calendar ();
+            calendar = new Gtk.Calendar ();
 
             var main_grid = new Gtk.Grid ();
             main_grid.orientation = Gtk.Orientation.VERTICAL;
@@ -157,6 +159,7 @@ namespace CalendarApplet {
             on_settings_change ("clock-show-date");
             on_settings_change ("show-custom-format");
             on_settings_change ("custom-format");
+            on_settings_change ("calendar-show-week-numbers");
 
             popover.get_child ().show_all ();
 
@@ -194,6 +197,9 @@ namespace CalendarApplet {
             case "custom-format" :
                 custom_format = applet_settings.get_string ("custom-format");
                 this.update_clock ();
+                break;
+            case "calendar-show-week-numbers" :
+                calendar.show_week_numbers = applet_settings.get_boolean ("calendar-show-week-numbers");
                 break;
             }
         }

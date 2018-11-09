@@ -14,5 +14,12 @@
         Show the clock at the format you want
       </description>
     </key>
+    <key name="calendar-show-week-numbers" type="b">
+      <default>false</default>
+      <summary>Show week numbers in calendar</summary>
+      <description>
+        Enable or disable week numbers
+      </description>
+    </key>
   </schema>
 </schemalist>

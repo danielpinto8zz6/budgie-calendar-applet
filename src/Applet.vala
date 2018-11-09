@@ -137,6 +137,9 @@ namespace CalendarApplet {
                     popover.hide ();
                 } else {
                     update_headers ();
+                    calendar.day = time.get_day_of_month ();
+                    calendar.month = time.get_month () - 1;
+                    calendar.year = time.get_year ();
                     this.manager.show_popover (widget);
                 }
                 return Gdk.EVENT_STOP;

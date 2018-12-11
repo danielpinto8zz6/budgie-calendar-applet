@@ -100,7 +100,7 @@ namespace CalendarApplet {
             settings = new Settings ("org.gnome.desktop.interface");
             applet_settings = new Settings ("com.github.danielpinto8zz6.budgie-calendar-applet");
 
-            get_style_context ().add_class ("budgie-calendar-applet");
+            get_style_context ().add_class ("budgie-clock-applet");
 
             // Create a submenu system
             popover = new Budgie.Popover (widget);
@@ -122,6 +122,7 @@ namespace CalendarApplet {
             var main_grid = new Gtk.Grid ();
             main_grid.orientation = Gtk.Orientation.VERTICAL;
             main_grid.margin = 6;
+            main_grid.get_style_context ().add_class ("budgie-calendar-applet");
 
             main_grid.add (day_of_week_header);
             main_grid.add (date_header);

@@ -268,18 +268,19 @@ namespace CalendarApplet {
                 format = custom_format;
             } else if (ampm) {
                 format = "%l:%M";
+                if (orient == Gtk.Orientation.HORIZONTAL) {
+                    if (show_seconds) {
+                        format += ":%S";
+                    }
+                }
+                format += " %p";
             } else {
                 format = "%H:%M";
-            }
-
-            if (orient == Gtk.Orientation.HORIZONTAL) {
-                if (show_seconds) {
+                if (orient == Gtk.Orientation.HORIZONTAL) {
+                    if (show_seconds) {
                     format += ":%S";
+                    }
                 }
-            }
-
-            if (ampm) {
-                format += " %p";
             }
 
             string ftime;

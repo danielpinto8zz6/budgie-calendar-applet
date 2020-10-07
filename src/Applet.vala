@@ -26,7 +26,7 @@ namespace CalendarApplet {
 
     public class Applet : Budgie.Applet {
         protected Gtk.EventBox widget;
-        protected Gtk.Box layout;
+        protected Gtk.Paned layout;
         protected Gtk.Label clock;
         protected Gtk.Label date_label;
         protected Gtk.Label seconds_label;
@@ -104,29 +104,50 @@ namespace CalendarApplet {
 
             // Create a submenu system
             popover = new Budgie.Popover (widget);
+            GtkWidget *
+            gtk_paned_new (GtkOrientation orientation);
+            
+            GtkWidget *
+            gtk_paned_get_child1 (GtkPaned *paned);
 
-            day_of_week_header = new Gtk.Label ("");
-            day_of_week_header.get_style_context ().add_class ("h1");
-            day_of_week_header.set_halign (Gtk.Align.START);
-            day_of_week_header.margin_bottom = 6;
-            day_of_week_header.margin_start = 6;
+                date_header = new Gtk.Label ("");
+                date_header.get_style_context ().add_class ("h1");
+                date_header.set_halign (Gtk.Align.START);
+                date_header.margin_start = 6;
+                date_header.margin_bottom = 6;
+                
+                gchar *
+                (*GtkCalendarDetailFunc) (GtkCalendar *calendar,
+                guint year,
+                guint month,
+                guint day,
+                gpointer user_data);
 
-            date_header = new Gtk.Label ("");
-            date_header.get_style_context ().add_class ("h2");
-            date_header.set_halign (Gtk.Align.START);
-            date_header.margin_start = 6;
-            date_header.margin_bottom = 12;
+            GtkWidget *
+            gtk_paned_get_child2 (GtkPaned *paned);
 
-            calendar = new Gtk.Calendar ();
+                day_of_week_header = new Gtk.Label ("");
+                day_of_week_header.get_style_context ().add_class ("h1");
+                day_of_week_header.set_halign (Gtk.Align.START);
+                day_of_week_header.margin_bottom = 6;
+                day_of_week_header.margin_start = 6;
 
-            var main_grid = new Gtk.Grid ();
-            main_grid.orientation = Gtk.Orientation.VERTICAL;
-            main_grid.margin = 6;
-            main_grid.get_style_context ().add_class ("budgie-calendar-applet");
+                date_header = new Gtk.Label ("");
+                date_header.get_style_context ().add_class ("h2");
+                date_header.set_halign (Gtk.Align.START);
+                date_header.margin_start = 6;
+                date_header.margin_bottom = 12;
 
-            main_grid.add (day_of_week_header);
-            main_grid.add (date_header);
-            main_grid.add (calendar);
+                calendar = new Gtk.Calendar ();
+
+                var main_grid = new Gtk.Grid ();
+                main_grid.orientation = Gtk.Orientation.VERTICAL;
+                main_grid.margin = 6;
+                main_grid.get_style_context ().add_class ("budgie-calendar-applet");
+
+                main_grid.add (day_of_week_header);
+                main_grid.add (date_header);
+                main_grid.add (calendar);
 
             popover.add (main_grid);
 

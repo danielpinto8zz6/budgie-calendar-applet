@@ -1,0 +1,84 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.danielpinto8zz6.budgie-calendar-applet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+# Translators:
+# Algent Albrahimi <algent23@gmail.com>, 2021
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: com.github.danielpinto8zz6.budgie-calendar-applet\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-27 08:18+0100\n"
+"PO-Revision-Date: 2021-04-14 14:08+0200\n"
+"Last-Translator: Algent Albrahimi <algent23@gmail.com>, 2021\n"
+"Language-Team: Albanian (https://www.transifex.com/danielpinto8zz6/"
+"teams/75894/sq/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sq\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:8
+msgid "Budgie Calendar Applet"
+msgstr "Appleti Kalendari Budgie"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:9
+msgid "Calendar applet for Budgie Desktop"
+msgstr "Applet i kalendarit për Desktopin Budgie"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:11
+msgid ""
+"A budgie-desktop applet to show hours with custom formats and a calendar in "
+"a popover"
+msgstr ""
+"Një applet budgie-desktop për të treguar orët me formate të personalizuara "
+"dhe një kalendar në sistemin e tabaka"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:24
+msgid "Daniel Pinto"
+msgstr "Daniel Pinto"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:5
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:12
+msgid "Clock Format"
+msgstr "Formati i orës"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:6
+msgid "Enable or disable custom clock format"
+msgstr "Aktivizo ose çaktivizo formatin e orës së personalizuar"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:11
+msgid "\"%e %b %Y - %H:%M\""
+msgstr "\"%e %b %V - %O:%M\""
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:13
+msgid "Show the clock at the format you want"
+msgstr "Shfaq orën në formatin që dëshiron"
+
+#: src/AppletSettings.vala:31
+msgid "Show date"
+msgstr "Shfaq datën"
+
+#: src/AppletSettings.vala:38
+msgid "Show seconds"
+msgstr "Shfaq sekondat"
+
+#: src/AppletSettings.vala:45
+msgid "Use 24h time"
+msgstr "Përdor formatin 24o"
+
+#: src/AppletSettings.vala:52
+msgid "Custom date"
+msgstr "Data e personalizuar"
+
+#: src/AppletSettings.vala:58
+msgid "Date format syntax"
+msgstr "Sintaksa e formatit të datës"
+
+#: src/AppletSettings.vala:69
+msgid "Time and date settings"
+msgstr "Cilësimet e orës dhe datës"

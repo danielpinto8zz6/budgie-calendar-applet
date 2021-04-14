@@ -1,0 +1,83 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.danielpinto8zz6.budgie-calendar-applet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Seán Ó Séaghdha <sean.anseo@gmail.com>, 2019
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: com.github.danielpinto8zz6.budgie-calendar-applet\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-27 08:18+0100\n"
+"PO-Revision-Date: 2017-06-18 04:23+0000\n"
+"Last-Translator: Seán Ó Séaghdha <sean.anseo@gmail.com>, 2019\n"
+"Language-Team: Irish (https://www.transifex.com/danielpinto8zz6/teams/75894/ga/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ga\n"
+"Plural-Forms: nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);\n"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:8
+msgid "Budgie Calendar Applet"
+msgstr "Feidhmchláirín Féilire Budgie"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:9
+msgid "Calendar applet for Budgie Desktop"
+msgstr "Feidhmchláirín féilire don Deasc Budgie"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:11
+msgid ""
+"A budgie-desktop applet to show hours with custom formats and a calendar in "
+"a popover"
+msgstr ""
+"Feidhmchláirín Deasc Budgie chun dáta/am a thaispeáint agus féilire i "
+"bpreab-bhosca"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:24
+msgid "Daniel Pinto"
+msgstr "Daniel Pinto"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:5
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:12
+msgid "Clock Format"
+msgstr "Formáid Chloig"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:6
+msgid "Enable or disable custom clock format"
+msgstr "Cumasaigh nó díchumasaigh an fhormáid chloig shaincheaptha"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:11
+msgid "\"%e %b %Y - %H:%M\""
+msgstr "\"%e %b %Y - %H:%M\""
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:13
+msgid "Show the clock at the format you want"
+msgstr "Taispeáin an clog san fhormáid is fearr leat"
+
+#: src/AppletSettings.vala:31
+msgid "Show date"
+msgstr "Taispeáin dáta"
+
+#: src/AppletSettings.vala:38
+msgid "Show seconds"
+msgstr "Taispeáin soicindí"
+
+#: src/AppletSettings.vala:45
+msgid "Use 24h time"
+msgstr "Úsáid am 24 uair"
+
+#: src/AppletSettings.vala:52
+msgid "Custom date"
+msgstr "Dáta saincheaptha"
+
+#: src/AppletSettings.vala:58
+msgid "Date format syntax"
+msgstr "Comhréir fhormáid dáta"
+
+#: src/AppletSettings.vala:69
+msgid "Time and date settings"
+msgstr "Socruithe am agus dáta"

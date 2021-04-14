@@ -2,25 +2,24 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.github.danielpinto8zz6.budgie-calendar-applet package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
-# Algent Albrahimi <algent23@gmail.com>, 2021
-#
+# Algent Albrahimi <algent@protonmail.com>, 2021
+# 
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: com.github.danielpinto8zz6.budgie-calendar-applet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-27 08:18+0100\n"
-"PO-Revision-Date: 2021-04-14 14:08+0200\n"
-"Last-Translator: Algent Albrahimi <algent23@gmail.com>, 2021\n"
-"Language-Team: Albanian (https://www.transifex.com/danielpinto8zz6/"
-"teams/75894/sq/)\n"
+"PO-Revision-Date: 2021-04-14 17:54+0000\n"
+"Last-Translator: Algent Albrahimi <algent@protonmail.com>, 2021\n"
+"Language-Team: Albanian (https://www.transifex.com/danielpinto8zz6/teams/75894/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sq\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:8
 msgid "Budgie Calendar Applet"
@@ -36,7 +35,7 @@ msgid ""
 "a popover"
 msgstr ""
 "Një applet budgie-desktop për të treguar orët me formate të personalizuara "
-"dhe një kalendar në sistemin e tabaka"
+"dhe një kalendar në sistemin tabaka"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:24
 msgid "Daniel Pinto"
@@ -69,7 +68,7 @@ msgstr "Shfaq sekondat"
 
 #: src/AppletSettings.vala:45
 msgid "Use 24h time"
-msgstr "Përdor formatin 24o"
+msgstr "Përdor formatin 24 orë"
 
 #: src/AppletSettings.vala:52
 msgid "Custom date"

@@ -3,14 +3,18 @@
 # This file is distributed under the same license as the com.github.danielpinto8zz6.budgie-calendar-applet package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# daniel pinto <danielpinto8zz6@gmail.com>, 2021
+# Davidmp <medipas@gmail.com>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: com.github.danielpinto8zz6.budgie-calendar-applet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-27 08:18+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: daniel pinto <danielpinto8zz6@gmail.com>, 2018\n"
+"PO-Revision-Date: 2021-04-14 17:54+0000\n"
+"Last-Translator: Davidmp <medipas@gmail.com>, 2021\n"
 "Language-Team: Catalan (https://www.transifex.com/danielpinto8zz6/teams/75894/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,38 +24,40 @@ msgstr ""
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:8
 msgid "Budgie Calendar Applet"
-msgstr ""
+msgstr "Miniaplicació de calendari del Budgie"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:9
 msgid "Calendar applet for Budgie Desktop"
-msgstr ""
+msgstr "Miniaplicació de calendari per a l'escriptori Budgie"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:11
 msgid ""
 "A budgie-desktop applet to show hours with custom formats and a calendar in "
 "a popover"
 msgstr ""
+"Una miniaplicació per a l'escriptori Budgie per mostrar hores amb formats "
+"personalitzats i un calendari emergent"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:24
 msgid "Daniel Pinto"
-msgstr ""
+msgstr "Daniel Pinto"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:5
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:12
 msgid "Clock Format"
-msgstr ""
+msgstr "Format del rellotge"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:6
 msgid "Enable or disable custom clock format"
-msgstr ""
+msgstr "Habilita o inhabilita el format de rellotge personalitzat"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:11
 msgid "\"%e %b %Y - %H:%M\""
-msgstr ""
+msgstr "\"%e %b %Y - %H.%M\""
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:13
 msgid "Show the clock at the format you want"
-msgstr ""
+msgstr "Es mostra el rellotge amb el format que vulgueu."
 
 #: src/AppletSettings.vala:31
 msgid "Show date"
@@ -59,7 +65,7 @@ msgstr "Mostra la data"
 
 #: src/AppletSettings.vala:38
 msgid "Show seconds"
-msgstr "Mostra segons"
+msgstr "Mostra els segons"
 
 #: src/AppletSettings.vala:45
 msgid "Use 24h time"
@@ -71,8 +77,8 @@ msgstr "Data personalitzada"
 
 #: src/AppletSettings.vala:58
 msgid "Date format syntax"
-msgstr "Format de la sintaxi de la data"
+msgstr "Sintaxi del format de la data"
 
 #: src/AppletSettings.vala:69
 msgid "Time and date settings"
-msgstr "Configuraci de l'hora i la data"
+msgstr "Configuració de l'hora i la data"

@@ -69,11 +69,6 @@ namespace CalendarApplet {
             custom_format = new Gtk.Entry ();
             custom_format.set_halign (Gtk.Align.FILL);
 
-            custom_format.activate.connect (() => {
-                unowned string str = custom_format.get_text ();
-                applet_settings.set_string ("custom-format", str);
-            });
-
             string label_link = (_ ("Date format syntax"));
             Gtk.LinkButton linkbutton = new Gtk.LinkButton.with_label ("http://www.foragoodstrftime.com", label_link);
 
@@ -105,7 +100,6 @@ namespace CalendarApplet {
             switch_custom_format.notify["active"].connect (apply_switch_custom_format);
 
             on_settings_changed ("clock-format");
-            switch_week_numbers.active = applet_settings.get_boolean ("calendar-show-week-numbers");
             switch_format.notify["active"].connect (() => {
                 ClockFormat f = (switch_format.active ? ClockFormat.TWENTYFOUR : ClockFormat.TWELVE);
                 settings.set_enum ("clock-format", f);

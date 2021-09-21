@@ -17,9 +17,9 @@ namespace CalendarApplet {
         private Gtk.Switch switch_date;
         private Gtk.Switch switch_format;
         private Gtk.Switch switch_seconds;
-        private Gtk.Switch switch_custom_format;
-        private Gtk.Entry custom_format;
         private Gtk.Switch switch_week_numbers;
+        private Gtk.Switch switch_custom_format;
+        private Gtk.Entry  custom_format;
 
         public AppletSettings () {
             Object (margin: 6,
@@ -28,6 +28,9 @@ namespace CalendarApplet {
 
             settings = new Settings ("org.gnome.desktop.interface");
             applet_settings = new Settings ("com.github.danielpinto8zz6.budgie-calendar-applet");
+
+            var about = new Gtk.Button.from_icon_name ("dialog-information-symbolic", Gtk.IconSize.MENU);
+            about.clicked.connect (about_dialog);
 
             var label_date = new Gtk.Label (_ ("Show date"));
             label_date.set_halign (Gtk.Align.START);
@@ -50,12 +53,6 @@ namespace CalendarApplet {
             switch_format.set_halign (Gtk.Align.END);
             switch_format.set_hexpand (true);
 
-            var label_switch_custom_format = new Gtk.Label (_ ("Custom date"));
-            label_switch_custom_format.set_halign (Gtk.Align.START);
-            label_switch_custom_format.set_hexpand (true);
-            switch_custom_format = new Gtk.Switch ();
-            switch_custom_format.set_halign (Gtk.Align.END);
-
             var label_week_numbers = new Gtk.Label (_ ("Show week numbers"));
             label_week_numbers.set_halign (Gtk.Align.START);
             label_week_numbers.set_hexpand (true);
@@ -63,22 +60,20 @@ namespace CalendarApplet {
             switch_week_numbers.set_halign (Gtk.Align.END);
             switch_week_numbers.set_hexpand (true);
 
-            string label_link = (_ ("Date format syntax"));
-            Gtk.LinkButton linkbutton = new Gtk.LinkButton.with_label ("http://www.foragoodstrftime.com", label_link);
+            var label_switch_custom_format = new Gtk.Label (_ ("Custom date"));
+            label_switch_custom_format.set_halign (Gtk.Align.START);
+            label_switch_custom_format.set_hexpand (true);
+            switch_custom_format = new Gtk.Switch ();
+            switch_custom_format.set_halign (Gtk.Align.END);
 
             custom_format = new Gtk.Entry ();
             custom_format.set_halign (Gtk.Align.FILL);
 
-            custom_format.activate.connect (() => {
-                unowned string str = custom_format.get_text ();
-                applet_settings.set_string ("custom-format", str);
-            });
+            string label_link = (_ ("Date format syntax"));
+            Gtk.LinkButton linkbutton = new Gtk.LinkButton.with_label ("http://www.foragoodstrftime.com", label_link);
 
             var time_and_date_settings = new Gtk.Button.with_label (_ ("Time and date settings"));
             time_and_date_settings.clicked.connect (open_datetime_settings);
-
-            var about = new Gtk.Button.from_icon_name ("dialog-information-symbolic", Gtk.IconSize.MENU);
-            about.clicked.connect (about_dialog);
 
             attach (about,                      0, 0, 2, 1);
             attach (label_date,                 0, 2, 1, 1);
@@ -87,46 +82,13 @@ namespace CalendarApplet {
             attach (switch_seconds,             1, 3, 1, 1);
             attach (label_format,               0, 4, 1, 1);
             attach (switch_format,              1, 4, 1, 1);
-            attach (label_switch_custom_format, 0, 5, 1, 1);
-            attach (switch_custom_format,       1, 5, 1, 1);
-            attach (label_week_numbers,         0, 6, 1, 1);
-            attach (switch_week_numbers,        1, 6, 1, 1);
+            attach (label_week_numbers,         0, 5, 1, 1);
+            attach (switch_week_numbers,        1, 5, 1, 1);
+            attach (label_switch_custom_format, 0, 6, 1, 1);
+            attach (switch_custom_format,       1, 6, 1, 1);
             attach (custom_format,              0, 7, 2, 1);
             attach (linkbutton,                 0, 8, 2, 1);
             attach (time_and_date_settings,     0, 9, 2, 1);
-
-            if (switch_custom_format.get_active ()) {
-                custom_format.set_sensitive (true);
-                switch_date.set_sensitive (false);
-                switch_seconds.set_sensitive (false);
-                switch_format.set_sensitive (false);
-            } else {
-                custom_format.set_sensitive (false);
-                switch_date.set_sensitive (true);
-                switch_seconds.set_sensitive (true);
-                switch_format.set_sensitive (true);
-            }
-
-            switch_custom_format.notify["active"].connect (() => {
-                if ((switch_custom_format as Gtk.Switch).get_active ()) {
-                    custom_format.set_sensitive (true);
-                    switch_date.set_sensitive (false);
-                    switch_seconds.set_sensitive (false);
-                    switch_format.set_sensitive (false);
-                } else {
-                    custom_format.set_sensitive (false);
-                    switch_date.set_sensitive (true);
-                    switch_seconds.set_sensitive (true);
-                    switch_format.set_sensitive (true);
-                }
-            });
-
-            switch_date.active = settings.get_boolean ("clock-show-date");
-            switch_seconds.active = settings.get_boolean ("clock-show-seconds");
-            switch_format.active = applet_settings.get_boolean ("show-custom-format");
-            on_settings_changed ("clock-format");
-            custom_format.text = applet_settings.get_string ("custom-format");
-            switch_week_numbers.active = applet_settings.get_boolean ("calendar-show-week-numbers");
 
             settings.bind ("clock-show-date",    switch_date,    "active", SettingsBindFlags.DEFAULT);
             settings.bind ("clock-show-seconds", switch_seconds, "active", SettingsBindFlags.DEFAULT);
@@ -134,6 +96,10 @@ namespace CalendarApplet {
             applet_settings.bind ("custom-format",              custom_format,          "text", SettingsBindFlags.DEFAULT);
             applet_settings.bind ("calendar-show-week-numbers", switch_week_numbers,  "active", SettingsBindFlags.DEFAULT);
 
+            apply_switch_custom_format();
+            switch_custom_format.notify["active"].connect (apply_switch_custom_format);
+
+            on_settings_changed ("clock-format");
             switch_format.notify["active"].connect (() => {
                 ClockFormat f = (switch_format.active ? ClockFormat.TWENTYFOUR : ClockFormat.TWELVE);
                 settings.set_enum ("clock-format", f);
@@ -142,6 +108,14 @@ namespace CalendarApplet {
             settings.changed.connect (on_settings_changed);
 
             show_all ();
+        }
+
+        private void apply_switch_custom_format () {
+            var active = switch_custom_format.active;
+            custom_format.set_sensitive (active);
+            switch_date.set_sensitive (!active);
+            switch_seconds.set_sensitive (!active);
+            switch_format.set_sensitive (!active);
         }
 
         private void on_settings_changed (string key) {

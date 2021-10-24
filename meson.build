@@ -1,6 +1,6 @@
 project('com.github.danielpinto8zz6.budgie-calendar-applet',
         ['vala', 'c'],
-        version: '5.1',
+        version: '5.3',
         meson_version: '>=0.40.0',
         license: 'GPL2')
 

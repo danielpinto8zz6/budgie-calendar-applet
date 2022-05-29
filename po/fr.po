@@ -3,55 +3,61 @@
 # This file is distributed under the same license as the com.github.danielpinto8zz6.budgie-calendar-applet package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# daniel pinto <danielpinto8zz6@gmail.com>, 2021
+# roxfr <roxfr@outlook.fr>, 2022
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: com.github.danielpinto8zz6.budgie-calendar-applet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-27 08:18+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Edgar Fournival <edgar.fournival@hotmail.fr>, 2017\n"
+"PO-Revision-Date: 2021-04-14 17:54+0000\n"
+"Last-Translator: roxfr <roxfr@outlook.fr>, 2022\n"
 "Language-Team: French (https://www.transifex.com/danielpinto8zz6/teams/75894/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:8
 msgid "Budgie Calendar Applet"
-msgstr ""
+msgstr "Budgie Calendar Applet"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:9
 msgid "Calendar applet for Budgie Desktop"
-msgstr ""
+msgstr "Applet de calendrier pour Budgie Desktop"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:11
 msgid ""
 "A budgie-desktop applet to show hours with custom formats and a calendar in "
 "a popover"
 msgstr ""
+"Une applet budgie-desktop pour afficher les heures avec des formats "
+"personnalisés et un calendrier dans popover"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:24
 msgid "Daniel Pinto"
-msgstr ""
+msgstr "Daniel Pinto"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:5
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:12
 msgid "Clock Format"
-msgstr ""
+msgstr "Format d'horloge"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:6
 msgid "Enable or disable custom clock format"
-msgstr ""
+msgstr "Activer ou désactiver le format d'horloge personnalisé"
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:11
 msgid "\"%e %b %Y - %H:%M\""
-msgstr ""
+msgstr "\"%e %b %Y - %H:%M\""
 
 #: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:13
 msgid "Show the clock at the format you want"
-msgstr ""
+msgstr "Afficher l'horloge au format que vous voulez"
 
 #: src/AppletSettings.vala:31
 msgid "Show date"

@@ -1,0 +1,83 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.danielpinto8zz6.budgie-calendar-applet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Stephan Paternotte <stephan@paternottes.net>, 2025
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: com.github.danielpinto8zz6.budgie-calendar-applet\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-27 08:18+0100\n"
+"PO-Revision-Date: 2021-04-14 17:54+0000\n"
+"Last-Translator: Stephan Paternotte <stephan@paternottes.net>, 2025\n"
+"Language-Team: Dutch (Netherlands) (https://app.transifex.com/danielpinto8zz6/teams/75894/nl_NL/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl_NL\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:8
+msgid "Budgie Calendar Applet"
+msgstr "Budgie Kalender Applet"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:9
+msgid "Calendar applet for Budgie Desktop"
+msgstr "Kalender applet voor Budgie Desktop"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:11
+msgid ""
+"A budgie-desktop applet to show hours with custom formats and a calendar in "
+"a popover"
+msgstr ""
+"Een budgie-desktop-applet om uren weer te geven met aangepaste formaten en "
+"een kalender in een popover"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.appdata.xml.in:24
+msgid "Daniel Pinto"
+msgstr "Daniel Pinto"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:5
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:12
+msgid "Clock Format"
+msgstr "Klokformaat"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:6
+msgid "Enable or disable custom clock format"
+msgstr "Aangepast klokformaat in/uitschakelen"
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:11
+msgid "\"%e %b %Y - %H:%M\""
+msgstr "\"%e %b %Y - %H:%M\""
+
+#: data/com.github.danielpinto8zz6.budgie-calendar-applet.gschema.xml:13
+msgid "Show the clock at the format you want"
+msgstr "Toon de klok op het gewenste formaat"
+
+#: src/AppletSettings.vala:31
+msgid "Show date"
+msgstr "Datum tonen"
+
+#: src/AppletSettings.vala:38
+msgid "Show seconds"
+msgstr "Seconden tonen"
+
+#: src/AppletSettings.vala:45
+msgid "Use 24h time"
+msgstr "24-uurs klok gebruiken"
+
+#: src/AppletSettings.vala:52
+msgid "Custom date"
+msgstr "Aangepaste datum"
+
+#: src/AppletSettings.vala:58
+msgid "Date format syntax"
+msgstr "Datumformaat-opmaak"
+
+#: src/AppletSettings.vala:69
+msgid "Time and date settings"
+msgstr "Instellingen voor Datum en tijd"

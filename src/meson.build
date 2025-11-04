@@ -23,7 +23,7 @@ calendar_applet_sources = ['Applet.vala',
                'AppletSettings.vala']
 
 calendar_applet_deps = [dependency('gtk+-3.0', version: '>=3.18'),
-            dependency('budgie-1.0', version: '>=2')]
+            dependency('budgie-2.0', version: '>=3')]
 
 calendar_applet_vala_args = ['--target-glib=2.50', config_header]
 
